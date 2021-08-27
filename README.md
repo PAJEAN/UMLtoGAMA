@@ -172,4 +172,14 @@ Nous pouvons observer la classe abstraire <i>display</i> permettant d'indiquer u
 
 ### Contenu des opérations à l'aide d'un fichier JSON
 
-Un fichier <i>.json</i> est nécessaire si l'utilisateur désire renseigner le contenu des opérations de ces classes. Ce fichier doit représenter l'ensemble des classes et leurs opérations. Le fichier pour l'exemple proies/prédateurs est disponible dans le dossier data/gama/. Ce fichier est nécessaire mais si les opérations ne sont pas complétées alors le transformateur fournira uniquement le squelette du code gaml.
+Un fichier <i>.json</i> est nécessaire si l'utilisateur désire renseigner le contenu des opérations de ces classes. Ce fichier doit représenter l'ensemble des classes et leurs opérations. Le fichier pour l'exemple proies/prédateurs est disponible dans le dossier <i>data/gama/</i>. Ce fichier est nécessaire mais si les opérations ne sont pas complétées alors le transformateur fournira uniquement le squelette du code gaml.
+
+## Utilisation
+
+L'option <i>-f</i> permet d'indiquer le nom du fichier json (au sein du répertoire <i>data/gama/</i>) et du fichier <i>xmi</i> (au sein du répertoire <i>data/models/</i>). Le nom doit être le même.
+
+```
+python transformateur.py -f preyPredator
+```
+
+Le code généré est déposé au sein du répertoire <i>outputs/</i>.
