@@ -1,0 +1,52 @@
+{
+    "individus" : {
+        "base": "draw circle(people_size) color: color;",
+        "end": "nb_evacuated <- nb_evacuated +1 ; nb_non_evacuated <- nb_non_evacuated-1; do die;",
+        "initInd": "loop i from:1 to: int(number) { float random <- rnd (100) / 100; if (random < personnesAgees) { speed <- personnesAgees_speed; } else if (random < (personnesAgees + personnesJeunes)) { speed <- personnesJeunes_speed; } else { speed <- global_speed; }} location <-  any_location_in (one_of (magasin));",
+        "seCache": "float a <- rnd (1000) / 1000; if(color = couleur_seCache and a < 0.8) { cache <- true; color <- couleur_resteCache; } if(a < 0.5) { cache <- true; color <- couleur_seCache; }",
+        "updateTarget": "color <- ind_color; cache <- false; the_target <- any_location_in((target) closest_to(self)); sortie <- any_location_in((exit) closest_to(self));",
+        "isFound": "alive <- false ; nb_dead <- nb_dead+1; nb_alive <- nb_alive-1; point emplacement2 <-location; create mort number:1 { location<-emplacement2; } do die;"
+    },
+    "leaders" : {
+        "moving": "if(location distance_to any_location_in(cachettes_cell closest_to(self)) < 1) { do seCache(); } else { do updateTarget(couleur_leaders, list(sorties), list(sorties)); do goto target: the_target on: free_cell recompute_path: true; }"
+    },
+    "suiveurs" : {
+        "moving": "if(location distance_to any_location_in(cachettes_cell closest_to(self)) < 1) { do seCache(); } else { do updateTarget(couleur_suiveurs, (leaders+sorties+sortie_principale), list(sorties)); do goto target: the_target on: free_cell recompute_path: true; }"
+    },
+    "paralyses" : {
+        "moving": "if(location distance_to any_location_in(cachettes_cell closest_to(self)) < 1) { do seCache(); } else { do updateTarget(couleur_paralyses, (leaders+sorties+sortie_principale), (sorties+sortie_principale)); if  nb_terroristes != 0 and location distance_to any_location_in(terroristes closest_to(self)) < paralyses_portee { the_target <- nil; } if nb_kamikazes != 0 and location distance_to any_location_in(kamikazes closest_to(self)) < paralyses_portee { the_target <- nil; } do goto target: the_target on: free_cell recompute_path: true; }"
+    },
+    "monument": {
+        "base": "draw shape color: color;"
+    },
+    "batiment": {
+        "init": "ask cell overlapping self { is_obstacle <- true; visible <- false; }"
+    },
+    "cachettes": {
+        "init": "ask cell overlapping self { cache <- true; }"
+    },
+    "mort": {
+        "base": "draw circle(people_size) color: color;"
+    },
+    "sorties": {
+        "base": "draw circle(people_size * 2) color: #green;"
+    },
+    "terroristes": {
+        "init": "speed <- terroristes_speed; location <- {rnd(250, 465), 465};",
+        "base": "draw circle(people_size) color: color;",
+        "moving": "list<leaders> leaders_cell <- leaders; list<suiveurs> suiveurs_cell <- suiveurs; list<paralyses> paralyses_cell <- paralyses; the_target <- any_location_in ((suiveurs_cell+leaders_cell+paralyses_cell) closest_to(self)); do goto target: the_target  on: free_cell recompute_path: true ;",
+        "kill": "do spottedInd();",
+        "spottedInd": "loop ind over: [suiveurs, leaders, paralyses] { ask ind at_distance attack_range { if(alive=true and cache=false) { do isFound(); } if(alive=true and cache=true) { float b <- rnd (1000) / 1000; if(b < 0.5) { do isFound(); }}}}"
+    },
+    "kamikazes": {
+        "init": "speed <- kamikazes_speed; location <- {220, 450};",
+        "kill": "int a <- nb_dead; do spottedInd(); if a < nb_dead { nb_kamikazes <- nb_kamikazes -1; ask terroristes at_distance attack_range { alive <- false ; nb_terroristes <- nb_terroristes -1; point emplacement <- location; create mort number:1 { location<-emplacement; } do die; } alive <- false; point emplacement <- location; create mort number:1 { location<-emplacement; } do die; }"
+    },
+    "IMTterrorism": {
+        "main_display": "species cachettes aspect: base; species magasin aspect: base; species batiment aspect: base; species leaders aspect: base ; species suiveurs aspect: base; species paralyses aspect: base; species terroristes aspect: base ; species kamikazes aspect: base ; species sorties aspect: base ; species mort aspect: base ;"
+    },
+    "global": {
+        "init": "list<cell> free_cell <- cell where (each.visible);\n\t\task initLeaders { do initInd(nb_leaders); }\n\t\task initSuiveurs { do initInd(nb_suiveurs); }\n\t\task initParalyses { do initInd(nb_paralyses); }",
+        "stop_simulation": "do pause;"
+    }
+}

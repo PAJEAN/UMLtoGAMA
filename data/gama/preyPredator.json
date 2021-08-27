@@ -1,0 +1,27 @@
+{
+    "generic_species" : {
+        "basic_move": "my_cell <- one_of(my_cell.neighbors2()); location <- my_cell.location;",
+        "eat": "energy <- energy + energy_from_eat();",
+        "die": "do die;",
+        "reproduce": "return;",
+        "energy_from_eat": "return 0.0;",
+        "base": "draw circle(size) color: color;",
+        "init": "location <- my_cell.location;"
+    },
+    "prey": {
+        "reproduce": "int nb_offsprings <- rnd(1, nb_max_offsprings); create species(self) number: nb_offsprings { color <- #blue; max_energy <- prey_max_energy; max_transfert <- prey_max_transfert; energy_consum <- prey_energy_consum; proba_reproduce <- prey_proba_reproduce; nb_max_offsprings <- prey_nb_max_offsprings; energy_reproduce <-  prey_energy_reproduce;  energy <- myself.energy / nb_offsprings; my_cell <- myself.my_cell; location <- my_cell.location; } energy <- energy / nb_offsprings;",
+        "energy_from_eat": "float energy_transfert <- 0.0; if(my_cell.food > 0) { energy_transfert <- min([max_transfert, my_cell.food]); my_cell.food <- my_cell.food - energy_transfert; } return energy_transfert;",
+        "choose_cell": "return (my_cell.neighbors2()) with_max_of (each.food);"
+    },
+    "predator": {
+        "reproduce": "int nb_offsprings <- rnd(1, nb_max_offsprings); create species(self) number: nb_offsprings { color <- #red; max_energy <- predator_max_energy; energy_transfert <- predator_energy_transfert; energy_consum <- predator_energy_consum; proba_reproduce <- predator_proba_reproduce; nb_max_offsprings <- predator_nb_max_offsprings; energy_reproduce <- predator_energy_reproduce; energy <- myself.energy / nb_offsprings; my_cell <- myself.my_cell; location <- my_cell.location; } energy <- energy / nb_offsprings;",
+        "energy_from_eat": "list<prey> reachable_preys <- prey inside (my_cell); if(! empty(reachable_preys)) { ask one_of (reachable_preys) { do die; } return energy_transfert; } return 0.0;",
+        "choose_cell": "vegetation_cell my_cell_tmp <- shuffle(my_cell.neighbors2()) first_with (!(empty(prey inside (each)))); if my_cell_tmp != nil { return my_cell_tmp; } else { return  one_of(my_cell.neighbors2()); }"
+    },
+    "vegetation_cell": {
+        "neighbors2": "return (self neighbors_at 2);"
+    },
+    "prey_predator": {
+        "main_display": "grid vegetation_cell lines: #black; species prey aspect: base; species predator aspect: base;"
+    }
+}

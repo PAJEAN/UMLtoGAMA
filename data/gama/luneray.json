@@ -1,0 +1,22 @@
+{
+    "people" : {
+        "stay": "if flip(0.05) { target <- any_location_in (one_of(building)); }",
+        "move": "do goto target: target on: road_network; if (location = target) { target <- nil; }",
+        "infect": "ask people at_distance 10 #m { if flip(0.05) { is_infected <- true; } }",
+        "init": "location <- any_location_in(one_of(building));",
+        "circle": "draw circle(10) color:is_infected ? #red : #green;"
+    },
+    "road": {
+        "geom": "draw shape color: #black;"
+    },
+    "building": {
+        "geom": "draw shape color: #gray;"
+    },
+    "main": {
+        "map": "species road aspect:geom; species building aspect:geom; species people aspect:circle;"
+    },
+    "global": {
+        "init": "road_network <- as_edge_graph(road); ask nb_infected_init among people { is_infected <- true; }",
+        "end_simulation": "do pause;"
+    }
+}

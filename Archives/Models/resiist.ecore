@@ -1,0 +1,1429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="resiist" nsURI="http://www.example.org/resiist" nsPrefix="resiist">
+  <eClassifiers xsi:type="ecore:EClass" name="ConnexionWithMeta" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Permet d'utiliser le concept de ModellingPattern : établir le lien sémantique entre tous les concepts d'un méta modèle et leur possible utilisation au sein d'un ModellingPattern"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modellingPattern" eType="#//ModellingPattern"
+        eOpposite="#//ModellingPattern/patternedElements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configDsml" eType="#//Config_DSML"
+        eOpposite="#//Config_DSML/isaDSML"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configModellingObject"
+        eType="#//Config_ModellingObject" eOpposite="#//Config_ModellingObject/isAModellingObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="imageURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="patternizable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inspiredFrom" eType="#//ConnexionWithMeta"
+        eOpposite="#//ConnexionWithMeta/inspires"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inspires" upperBound="-1"
+        eType="#//ConnexionWithMeta" eOpposite="#//ConnexionWithMeta/inspiredFrom"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConfigurationManager">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Permet d'utiliser le concept de ModellingPattern : gérer les confiurations i.e. les versions des modèles"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="config_dsml" upperBound="-1"
+        eType="#//Config_DSML" containment="true" eOpposite="#//Config_DSML/configurationManager"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Config_ModellingObject">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Permet d'utiliser le concept de ModellingPattern : gérer les configurations des objets métier de modélisation i.e. ModellingObjects"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configDsml" eType="#//Config_DSML"
+        eOpposite="#//Config_DSML/configModelingObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="referenceName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isAModellingObject" eType="#//ConnexionWithMeta"
+        containment="true" eOpposite="#//ConnexionWithMeta/configModellingObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Classe abstraite) Classe Mère du méta modèle"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PatternManager">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Permet d'utiliser le concept de ModellingPattern : gérer les ModellingPattern dans une base cohérente et prenant en compte les versions et variantes de ModellingPatterns"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelingpatterns" upperBound="-1"
+        eType="#//ModellingPattern" containment="true" eOpposite="#//ModellingPattern/patternmanager"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AggregationFunction" eSuperTypes="#//ModellingFunction">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Décrit une fonction mathémtique dont le but est l'agrégation de plusieurs objets de type Characteristics (Indicator, Property, ModellingVariable) pour calculer la valeur courante d'un autre Value&#x9;(Classe de concept métier) décrit une fonction mathématique dont le but est d'agréger la valeur courante de plusieurs objets de type Characteristics (Indicator, Property, ModellingVariable) pour calculer la valeur courante d'un autre objet Characteristic"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="agregates" upperBound="-1"
+        eType="#//Characteristic"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stotal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultsFromAgregationOf"
+        eType="#//Characteristic"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BIM" eSuperTypes="#//PhysicalArchitectureModel">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Building Information Model ou Modéle des Informations (ou données) du Bâtiment."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Broker" abstract="true" eSuperTypes="#//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Classe Abtraite) Concept permettant de faciliter et supporter l'intéropérabilité des modèles composant la DMU (Digital Mock-Up Interface)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modellingElementsDefinition"
+        upperBound="-1" eType="#//ModellingElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="temporalAlignmentRules"
+        upperBound="-1" eType="#//Rule" eOpposite="#//Rule/brokersWithTemporalAlignementRules"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transformationRules" upperBound="-1"
+        eType="#//Rule" eOpposite="#//Rule/brokersWithTransformationRules"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CalculateAreaFunction" eSuperTypes="#//ModellingFunction">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Fonction associée à des objets de type Characteristic (Property, Indicator, ...)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xPoints" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="yPoints" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="areasOverload" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="areasUnderload" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="areaMaxOverload" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="areaMaxUnderload" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tp" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pFmin" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pFmax" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="meanPFmin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="meanPFmax" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rf0" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rf1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rf2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rf3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rf4" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rf5" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rfc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="meanFmax" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="meanFmin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="meanFnmax" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="meanFnmin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="yPointsFmax" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="yPointsFmin" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="yPointsFnmax" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="yPointsFnmin" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="describesAreaOf" eType="#//Characteristic"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Capability" eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Décrit et formalise la compétence et le niveau de compétence ou de maitrise à mener à bien une activité (voir capabilityType)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capabilityType" eType="#//CapabilityType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="providedBy" upperBound="-1"
+        eType="#//System" eOpposite="#//System/capabilities"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="canBeProvidedBy" upperBound="-1"
+        eType="#//Resource" eOpposite="#//Resource/hasCapabilities"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capacitylevel" eType="#//CapacityLevelType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Characteristic" abstract="true" eSuperTypes="#//FlowConnectibleElement #//NamedObjectWithOperationalSemanticDescription">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Classe Abstraite) Décrit toute information relative à un objet de modélisation manipulé dans la Plateforme RESIIST (Property, Objectives, ...)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantitativeValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fmin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fmax" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="10.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fnmin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fnmax" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="9.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceQVal" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="5.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ts" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceQValFmax" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="10.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceQValFmin" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceQValFnmax" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="9.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceQValFnmin" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="visibleInDashboard" upperBound="-1"
+        eType="#//DashBoard" eOpposite="#//DashBoard/displayedCharacteristics"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasDataHistory" eType="#//DataHistory"
+        eOpposite="#//DataHistory/gathersCaracteristicEvolution"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="handledInPreferenceModels"
+        eType="#//PreferenceModel" eOpposite="#//PreferenceModel/allowsHandlingConcerns"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnexionInteraction" abstract="true"
+      eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Classe Abstraite) Concept permettant de représenter (graphiquement ou textuellement selon la syntaxe concrète du DSML)  une relation entrée / sortie entre deux éléments de modélisation (e.g. processus, activité, fonction, place d'un Réseau de Petri, ...)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceElement" eType="#//FlowConnectibleElement"
+        eOpposite="#//FlowConnectibleElement/outputs"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetElement" eType="#//FlowConnectibleElement"
+        eOpposite="#//FlowConnectibleElement/inputs"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="potentiallyReducedByBarrier"
+        eType="#//System" eOpposite="#//System/reducesImpactOf"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Concern" abstract="true" eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Interest in a system relevant to one or more of its stakeholders &#xA;&#xA;NOTE A concern pertains to any influence on a system in its environment, including developmental, technological, business, operational, organizational, political, economic, legal, regulatory, ecological and social influences.&#xA;&#xA;Stakeholders of a system have concerns with respect to the system-of-interest considered in relation to its environment. A concern could be held by one or more stakeholders. Concerns arise throughout the life cycle from system needs and requirements, from design choices and from implementation and operating considerations. A concern could be manifest in many forms, such as in relation to one or more stakeholder needs, goals, expectations, responsibilities, requirements, design constraints, assumptions, dependencies, quality attributes, architecture decisions, risks or other issues pertaining to the system. &#xA;&#xA;EXAMPLES: The following are concerns in the terms of this International Standard: functionality, feasibility, usage, system purposes, system features, system properties, known limitations, structure, behavior, performance, resource utilization, reliability, security, information assurance, complexity, evolvability, openness, concurrency, autonomy, cost, schedule, quality of service, flexibility, agility, modifiability, modularity, control, inter-process communication, deadlock, state change, subsystem integration, data accessibility, privacy, compliance to regulation, assurance, business goals and strategies, customer experience, maintainability, affordability and disposability.&#xA;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refines" eType="#//Concern"
+        eOpposite="#//Concern/refinedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refinedBy" upperBound="-1"
+        eType="#//Concern" eOpposite="#//Concern/refines"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="derives" eType="#//Concern"
+        eOpposite="#//Concern/derivedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="derivedBy" upperBound="-1"
+        eType="#//Concern" eOpposite="#//Concern/derives"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isDecomposedBy" upperBound="-1"
+        eType="#//Concern" eOpposite="#//Concern/decomposes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decomposes" eType="#//Concern"
+        eOpposite="#//Concern/isDecomposedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fixedBy" upperBound="-1"
+        eType="#//Stakeholder" eOpposite="#//Stakeholder/determines"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="localVariables" upperBound="-1"
+        eType="#//ModellingVariable" eOpposite="#//ModellingVariable/concern"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usesCharacteristics" upperBound="-1"
+        eType="#//Characteristic"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isDependentFrom" upperBound="-1"
+        eType="#//Property" eOpposite="#//Property/allowsToAnalyseAndCheck"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="visibleInDashboard" upperBound="-1"
+        eType="#//DashBoard" eOpposite="#//DashBoard/displayedConcerns"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConcernModel" eSuperTypes="#//TextualDSML">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(DSML) Langage de modélisation des concepts Value et Requirement (inspiré des principes et de la liste des BoilerPlates : voir projet CESAR et la thèse de Lori Lemazurier)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" eType="#//System"
+        eOpposite="#//System/valuesRequirementsModel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
+        eType="#//Requirement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
+        eType="#//Value"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modellingVariables" upperBound="-1"
+        eType="#//ModellingVariable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="#//Property"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="indicators" upperBound="-1"
+        eType="#//Indicator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectives" upperBound="-1"
+        eType="#//Objective"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stakeholders" upperBound="-1"
+        eType="#//Stakeholder"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Config_DSML" eSuperTypes="#//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Permet d'utiliser le concept de ModellingPattern : gérer les évolutions ou version d'un même DSML"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configModelingObject" upperBound="-1"
+        eType="#//Config_ModellingObject" containment="true" eOpposite="#//Config_ModellingObject/configDsml"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isaDSML" eType="#//ConnexionWithMeta"
+        containment="true" eOpposite="#//ConnexionWithMeta/configDsml"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configurationManager" eType="#//ConfigurationManager"
+        eOpposite="#//ConfigurationManager/config_dsml"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="patternizable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContextModel" eSuperTypes="#//GraphicalDSML">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(DSML) Langage de modélisation du contexte d'un système (ContextDiagram)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="frontierSystems" upperBound="-1"
+        eType="#//System"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" eType="#//System"
+        eOpposite="#//System/contextModel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="characteristics" upperBound="-1"
+        eType="#//Characteristic"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
+        eType="#//Field"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resources" upperBound="-1"
+        eType="#//Resource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="services" upperBound="-1"
+        eType="#//Service"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="links" upperBound="-1"
+        eType="#//Link"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfaces" upperBound="-1"
+        eType="#//Interface"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="flows" upperBound="-1"
+        eType="#//Flow"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+        eType="#//Event"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="describesContextOfPreferenceModel"
+        upperBound="-1" eType="#//PreferenceModel" eOpposite="#//PreferenceModel/refersToContextDescribedBy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DashBoard" eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Tableau de bord pour le pilotage de l'IC"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="displayedCharacteristics"
+        upperBound="-1" eType="#//Characteristic" eOpposite="#//Characteristic/visibleInDashboard"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="displayedConcerns" upperBound="-1"
+        eType="#//Concern" eOpposite="#//Concern/visibleInDashboard"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="synopticModelOf" eType="#//XviModel"
+        eOpposite="#//XviModel/synopticModels"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataHistory" eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Définit et formalise l'évolution de la valeur de toute caractéristique dans un référentiel de temps (échelle, dimension) associé à cette caractéristique"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gathersCaracteristicEvolution"
+        eType="#//Characteristic" eOpposite="#//Characteristic/hasDataHistory"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueEvolution" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" transient="true"
+        derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataSource" eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Définit et formalise la source de données externe ou interne utilisable pour faire remonter une donnée terrain (capteur, base de données, document, ...)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="provides" upperBound="-1"
+        eType="#//ExternalData" eOpposite="#//ExternalData/from"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceType" lowerBound="1"
+        eType="#//DataSourceType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concern" upperBound="-1"
+        eType="#//System" eOpposite="#//System/dataSourceOf"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fiabilityLevel" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
+        defaultValueLiteral="10"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="refreshingFrequencyLogicalTimeUnit"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"
+        defaultValueLiteral="1.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecomposableFlowConnectibleElement"
+      abstract="true" eSuperTypes="#//FlowConnectibleElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Classe Abstraite) Concept permettant de représenter un élément de modélisation possédant des entrées / sortie et pouvant être décomposé en éléments de même nature (e.g. processus, activité, ou fonction)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="upperElement" eType="#//DecomposableFlowConnectibleElement"
+        eOpposite="#//DecomposableFlowConnectibleElement/subElements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subElements" upperBound="-1"
+        eType="#//DecomposableFlowConnectibleElement" eOpposite="#//DecomposableFlowConnectibleElement/upperElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DMU" eSuperTypes="#//PlatformFramework_Entity">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Digital Mock-Up Interface : fédére les modèles, données, informations et connaissances sur un système pour en faciliter l'accés, permettre des simulations, des analyses croisées, des analyses de sensibilité, ..."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="focusOn" eType="#//System"
+        eOpposite="#//System/dmu"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelsFederators" upperBound="-1"
+        eType="#//ModelFederator" containment="true" eOpposite="#//ModelFederator/dmu"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacesBrokers" upperBound="-1"
+        eType="#//InterfaceBroker" containment="true" eOpposite="#//InterfaceBroker/dmu"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usesTools" upperBound="-1"
+        eType="#//Tool" eOpposite="#//Tool/usedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataRepositories" upperBound="-1"
+        eType="#//KnowledgeRepository" eOpposite="#//KnowledgeRepository/associatedTo"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecisionStrategy" eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Stratégie de décision fixée par une partie prenante (Stakeholder) pouvant être commune à plusieurs parties prenantes"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="promotesPreferenceModels"
+        upperBound="-1" eType="#//PreferenceModel" eOpposite="#//PreferenceModel/correspondsToDecisionStrategies"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressedBy" eType="#//Stakeholder"
+        eOpposite="#//Stakeholder/expressesDecisionStrategy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Document" eSuperTypes="#//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Décrit tout contenant d'information, de données opu de connaissances décrit sous forme textuelle et sauvegardé dans un fichier (pdf, docx, excel, ...)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentType" lowerBound="1"
+        eType="#//DocumentType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentFormat" lowerBound="1"
+        eType="#//DocumentFormat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="latestVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lastModifier" eType="#//Stakeholder"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="author" eType="#//Stakeholder"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="focusOn" upperBound="-1"
+        eType="#//PlatformFramework_Entity" eOpposite="#//PlatformFramework_Entity/documentedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentSources" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XviModel" abstract="true" eSuperTypes="#//ModellingElement #//NamedObjectWithOperationalSemanticDescription">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Classe Abstraite) Classe racine de tous les DSML de la plateforme RESIIST"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelRepositoryPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="eFFBDModel"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="federates" upperBound="-1"
+        eType="#//ModelFederator" eOpposite="#//ModelFederator/modelFederator"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelVVStatus" eType="#//VVStatus"
+        defaultValueLiteral="ModelIsUnderConstruction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelAuthors" upperBound="-1"
+        eType="#//Stakeholder" eOpposite="#//Stakeholder/isAuthorOf"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelVersion" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="synopticModels" upperBound="-1"
+        eType="#//DashBoard" eOpposite="#//DashBoard/synopticModelOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executionRules" eType="#//Rule"
+        eOpposite="#//Rule/executionRuleOf"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event" eSuperTypes="#//ModellingElement #//NamedObjectWithOperationalSemanticDescription">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Décrit un événement surgissant dans l'environnement du système ou dont l'origine est liée au comportement de l'un des composants de ce système et pouvant induire des modifications dans le comportement d'autres éléments ou sur le système entier"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="occuringDatePhysicalTime"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="occurenceProbability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="canBeInducedBy" upperBound="-1"
+        eType="#//ModellingElement" eOpposite="#//ModellingElement/induces"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="starsEvent" upperBound="-1"
+        eType="#//Risk" eOpposite="#//Risk/beginsIfOccurneceOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stopsEvent" upperBound="-1"
+        eType="#//Risk" eOpposite="#//Risk/endsWhenOccurrenceOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initializesPossibilityOf"
+        upperBound="-1" eType="#//Risk" eOpposite="#//Risk/canOccurWhen"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reinforces" upperBound="-1"
+        eType="#//Risk" eOpposite="#//Risk/canBeReinforcedwhen"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EvolutionFunction" eSuperTypes="#//ModellingFunction">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Décrit une fonction mathémtique dont le but est de tracer et de visauliser l'évolution d'un objet de type Characteristics (Indicator, Property, ModellingVariable) "/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="describesEvolutionOf" eType="#//Characteristic"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uncertainQVal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="previousQVal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="qVal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="0.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExternalData" eSuperTypes="#//ModellingVariable">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Définit la donnée terrain ciblée pour être remontée et analysée"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" upperBound="-1" eType="#//DataSource"
+        eOpposite="#//DataSource/provides"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="requestedRefreshFrequencyLogicalTimeUnit"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"
+        defaultValueLiteral="1.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecisionModel" eSuperTypes="#//GraphicalDSML">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="DSML pour modéliser les système d'aide à la décision (Stratégie, Modèle de préférence, ...)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preferenceModels" upperBound="-1"
+        eType="#//PreferenceModel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decisionStrategies" upperBound="-1"
+        eType="#//DecisionStrategy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stakeholders" upperBound="-1"
+        eType="#//Stakeholder"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valuesAndRequirements"
+        upperBound="-1" eType="#//Concern"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="characteristics" upperBound="-1"
+        eType="#//Characteristic"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" eType="#//System"
+        eOpposite="#//System/decisionModels"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Effect" eSuperTypes="#//ModellingElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="effectDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="effectGlobalDamages" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"
+        defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mayImpact" upperBound="-1"
+        eType="#//Characteristic"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FMI" eSuperTypes="#//ModelFederator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Field" eSuperTypes="#//ConnexionInteraction">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Décrit un flux particulier de matière, d'énergie ou de données qui est généré, par hypothèse de manière involontaire mais connue car ayant déjà été rencontrée et pouvant être redoutée), par le comportement d'un système externe (e.g. un incendie propage un flux de chaleur) "/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fieldDescription" eType="#//FieldType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Flow" eSuperTypes="#//ConnexionInteraction">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Ensemble d'objets de type matière, Energie et/ou Données en déplacement d'un point à un autre. "/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="flowType" eType="#//FlowType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transferedBy" eType="#//Link"
+        eOpposite="#//Link/transfers"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="service" eType="#//Service"
+        eOpposite="#//Service/containsFlows"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isTrigger" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="carries" upperBound="-1"
+        eType="#//Resource" eOpposite="#//Resource/carriedBy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FlowConnectibleElement" abstract="true"
+      eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Classe Abstraite) Concept permettant de représenter un élément de modélisation possédant des relations d'entrée / sortie vers d'autres éléments de modélisation de même nature (e.g. processus, activité, fonction, place d'un Réseau de Petri, ...)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputs" upperBound="-1"
+        eType="#//ConnexionInteraction" eOpposite="#//ConnexionInteraction/targetElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputs" upperBound="-1"
+        eType="#//ConnexionInteraction" eOpposite="#//ConnexionInteraction/sourceElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionalArchitectureModel" eSuperTypes="#//GraphicalDSML">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Elément générique de modélisation des ojets fonctionnelles de type Processus, Activités, Taches ou Opérations dans le registre de la modélisation d'entreprise et d'organisations,  et Fonction dans le registre de l'Ingénierie Système"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelsBehaviorOf" eType="#//Processor"
+        eOpposite="#//Processor/modelledBehaviorOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" eType="#//System"
+        eOpposite="#//System/functionalModels"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resources" upperBound="-1"
+        eType="#//Resource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="capabilities" upperBound="-1"
+        eType="#//Capability"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="characteristics" upperBound="-1"
+        eType="#//Characteristic"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="flows" upperBound="-1"
+        eType="#//Flow"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+        eType="#//Event"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GraphicalDSML" abstract="true" eSuperTypes="#//XviModel">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Classe Abstraite) regroupe les DSML dont la syntaxe concrète est de nature graphique (e.g. BPMN, eFFBD, Réseaux de Petri, Diagramme de Contexte, ...)"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HumanResource" eSuperTypes="#//Resource">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Ressource Humaine e.g. opérateur, pilote, client, ..."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="responsibleOf" upperBound="-1"
+        eType="#//Processor" eOpposite="#//Processor/hasResponsible"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Indicator" eSuperTypes="#//Characteristic">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Donnée représentant la valeur d'une grandeur"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueToReach" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="toleranceBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="incertitudeDistribution"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scoringFunction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodOfMeasure" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="achievementDueDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="threshold" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="plannedValueProfile" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evaluatesProperties" upperBound="-1"
+        eType="#//Property" eOpposite="#//Property/propertyIndicators"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evaluatesObjectives" upperBound="-1"
+        eType="#//Objective" eOpposite="#//Objective/objectiveIndicators"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//IndicatorType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InfluenceRelationsModel" eSuperTypes="#//GraphicalDSML #//NamedObjectWithOperationalSemanticDescription">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Concept métier du méta modèle) DSML permettant de décrire les relations d'influence entre des objest de type Characteistic (Property, Indicator, ...)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="susbtances" upperBound="-1"
+        eType="#//System"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" eType="#//System"
+        eOpposite="#//System/influenceDiagramModels"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="#//Property"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modellingfunctions" upperBound="-1"
+        eType="#//ModellingFunction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
+        eType="#//Field"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+        eType="#//Event"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="indicators" eType="#//Indicator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectives" upperBound="-1"
+        eType="#//Objective"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modellingVariables" upperBound="-1"
+        eType="#//ModellingVariable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="risks" upperBound="-1"
+        eType="#//Risk"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InfluenceRelation" eSuperTypes="#//ConnexionInteraction">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Formalise la relation de dépendance entre deux objets de type Characteristic (Indicator, Property, ...) pouvant entraîner des dégradations (impact négatif) ou des améliorations (impact positif) sur un ou plusieurs éléments du système"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//ModellingFunction"
+        containment="true" eOpposite="#//ModellingFunction/conditionOf"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="delayBeforeInfluenceEffect"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interpretation" eType="#//InfluenceInterpretation"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="influenceIndiceQVal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="impact" lowerBound="1"
+        eType="#//ImpactInterpretation"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="code" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Interface" eSuperTypes="#//DecomposableFlowConnectibleElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Décrit une interface entre deux systèmes, nécessaire pour permettre l'échange d'un ou plusieurs services (interfaces de nature Physique, Organisationnelle, H/M ou Logique)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interfaceType" eType="#//InterfaceType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interfaceMainObjective"
+        eType="#//InterfaceObjectiveType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="physicalInterfaceFromType"
+        eType="#//PhysicalInterfaceType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestedForDelivering"
+        upperBound="-1" eType="#//Service" eOpposite="#//Service/requestInterfaces"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceBroker" eSuperTypes="#//Broker">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Concept permettant de faciliter et supporter l'intéropérabilité entre deux DMU (Digital mock-Up Interface)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dmu" eType="#//DMU" eOpposite="#//DMU/interfacesBrokers"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectsDMU" upperBound="-1"
+        eType="#//DMU"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacesManagementRules"
+        upperBound="-1" eType="#//Rule"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KnowledgeRepository" eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Référentiel de Connaissance (REX, Bonnes pratiques, Modelling Patterns, ...°"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="documents" upperBound="-1"
+        eType="#//Document" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedTo" eType="#//DMU"
+        eOpposite="#//DMU/dataRepositories"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="externalSourcesAccess"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Link" eSuperTypes="#//ConnexionInteraction">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Lien physique assurant le transfert d'un ou plusieurs flux et connecté entre deux interfaces pour concrétiser un service entre deux systèmes"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="linkType" eType="#//LinkType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transfers" upperBound="-1"
+        eType="#//Flow" eOpposite="#//Flow/transferedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="service" eType="#//Service"
+        eOpposite="#//Service/containsLinks"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Map" eSuperTypes="#//PhysicalArchitectureModel">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Modèle cartographique 2D"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MeasureMetric" eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Métrique (m, s, kg, N, ...)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conversionFormula" eType="#//ModellingFunction"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelFederator" abstract="true" eSuperTypes="#//Broker">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Concept permettant de faciliter et supporter l'intéropérabilité entre les modèles d'une même DMU (Digital mock-Up Interface) prenant en compte à la fois les règles d'alignement de modèles temporelles et sémantiques (voir thèse B.Nastov)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dmu" eType="#//DMU" eOpposite="#//DMU/modelsFederators"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="federationRules" upperBound="-1"
+        eType="#//Rule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelFederator" eType="#//XviModel"
+        eOpposite="#//XviModel/federates"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="temporalLogicalUnit" lowerBound="1"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="1:1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultTemporalLogicalUnit"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="1:1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModellingElement" abstract="true" eSuperTypes="#//PlatformFramework_Entity">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Classe Abstraite) Permet de décrire tous les éléments composant les modèles du système."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="meets" upperBound="-1"
+        eType="#//Objective" eOpposite="#//Objective/modellingElementObjectives"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="induces" upperBound="-1"
+        eType="#//Event" eOpposite="#//Event/canBeInducedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasValues" upperBound="-1"
+        eType="#//Value" eOpposite="#//Value/valuesOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maySufferFromEffectsOf"
+        upperBound="-1" eType="#//Risk" eOpposite="#//Risk/mayImpact"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModellingFunction" eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Fonction Mathématique"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="localVariables" upperBound="-1"
+        eType="#//ModellingVariable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mainCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="// main"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="// init"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="codedBy" eType="#//TextualDSML"
+        eOpposite="#//TextualDSML/modelsFunction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conditionOf" eType="#//InfluenceRelation"
+        eOpposite="#//InfluenceRelation/condition"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="returns" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tranfertFunctionOf" eType="#//Processor"
+        eOpposite="#//Processor/transfertFunction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startConditionOf" eType="#//Processor"
+        eOpposite="#//Processor/startCondition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModellingPattern" eSuperTypes="#//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Patron de modélisation : permet de mettre à disposition des modèlme pré-atablis dont on peut s'inspirer ou que l'on peut simplement paramétrer pour une réutilisation et accélérer la modélisation d'une IC"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patternedElements" upperBound="-1"
+        eType="#//ConnexionWithMeta" containment="true" eOpposite="#//ConnexionWithMeta/modellingPattern"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="URI" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateOfCreation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="imageURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nextVersionURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="previousVersionURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="saved" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="#//PatternState"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="versionMain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
+        defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="versionDecimal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedPatternOf" upperBound="-1"
+        eType="#//ModellingPattern" eOpposite="#//ModellingPattern/hasRelatedPatterns"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="antiPatternOf" upperBound="-1"
+        eType="#//ModellingPattern" eOpposite="#//ModellingPattern/hasAntiPatterns"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="equivalentPatternOf" upperBound="-1"
+        eType="#//ModellingPattern" eOpposite="#//ModellingPattern/hasEquivalentPatterns"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requests" upperBound="-1"
+        eType="#//ModellingPattern" eOpposite="#//ModellingPattern/requestedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestedBy" upperBound="-1"
+        eType="#//ModellingPattern" eOpposite="#//ModellingPattern/requests"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refines" upperBound="-1"
+        eType="#//ModellingPattern" eOpposite="#//ModellingPattern/refinedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refinedBy" upperBound="-1"
+        eType="#//ModellingPattern" eOpposite="#//ModellingPattern/refines"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patternmanager" eType="#//PatternManager"
+        eOpposite="#//PatternManager/modelingpatterns"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authors" upperBound="-1"
+        eType="#//Stakeholder"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasAntiPatterns" upperBound="-1"
+        eType="#//ModellingPattern" eOpposite="#//ModellingPattern/antiPatternOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasRelatedPatterns" upperBound="-1"
+        eType="#//ModellingPattern" eOpposite="#//ModellingPattern/relatedPatternOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasEquivalentPatterns"
+        upperBound="-1" eType="#//ModellingPattern" eOpposite="#//ModellingPattern/equivalentPatternOf"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModellingVariable" eSuperTypes="#//Characteristic">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Permet de décrire une Donnée"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concern" eType="#//Concern"
+        eOpposite="#//Concern/localVariables"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//DataType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedObjectWithOperationalSemanticDescription"
+      abstract="true" eSuperTypes="#//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Classe Abstraite) Permet de dissocier les classes de concept possédant un comportement simulable sous GAMA"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="notifications" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inputEvents" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outputEvents" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="etatCourant" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="configuration" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="behaviorChoice" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="Default"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="behaviorEvent" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Objective" eSuperTypes="#//Characteristic">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Formalise et value le résultat attendu lors de la mise en oeuvre d'un objet de type Processor (processus, activité, ...)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectiveDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectiveNature" lowerBound="1"
+        eType="#//ObjectiveNature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectiveIndicators" upperBound="-1"
+        eType="#//Indicator" eOpposite="#//Indicator/evaluatesObjectives"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modellingElementObjectives"
+        upperBound="-1" eType="#//ModellingElement" eOpposite="#//ModellingElement/meets"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrganisationResource" eSuperTypes="#//Resource">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Ressource de type organisation : département, société, entreprise, ..."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PBDModel" eSuperTypes="#//PhysicalArchitectureModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systemsAndComponents" upperBound="-1"
+        eType="#//System"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfaces" upperBound="-1"
+        eType="#//Interface"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="links" upperBound="-1"
+        eType="#//Link"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PhysicalArchitectureModel" abstract="true"
+      eSuperTypes="#//GraphicalDSML">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Classe abstraite) Permet de représenter l'architecture logique ou physique du système"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systems" upperBound="-1"
+        eType="#//System" eOpposite="#//System/physicalModels"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelAccessPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlatformFramework_Entity" abstract="true"
+      interface="true" eSuperTypes="#//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Classe Abstraite) Classe racine pour les fonctionnalités liés à la création, manipulation et gestion des modèles"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="documentedBy" eType="#//Document"
+        eOpposite="#//Document/focusOn"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="project" eType="#//Project"
+        eOpposite="#//Project/modellingData"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Processor" eSuperTypes="#//DecomposableFlowConnectibleElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Objet processant des entrées (Flux), sous le contrôle de contraintes émanant d'autres Processor (Flux) et utilisant des objets de type Resource pour produire ses sorties (Flux)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatesTransformation"
+        eType="#//ModellingFunction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="performs" upperBound="-1"
+        eType="#//System" eOpposite="#//System/performedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiresCapabilities" upperBound="-1"
+        eType="#//Capability"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evocatedByService" upperBound="-1"
+        eType="#//Service" eOpposite="#//Service/serviceEvokesProcessors"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="processorType" eType="#//ProcessorType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelledBehaviorOf" upperBound="-1"
+        eType="#//FunctionalArchitectureModel" eOpposite="#//FunctionalArchitectureModel/modelsBehaviorOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestsBarriers" upperBound="-1"
+        eType="#//System"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="involves" upperBound="-1"
+        eType="#//System"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stakeholders" upperBound="-1"
+        eType="#//Stakeholder"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startCondition" eType="#//ModellingFunction"
+        eOpposite="#//ModellingFunction/startConditionOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transfertFunction" eType="#//ModellingFunction"
+        eOpposite="#//ModellingFunction/tranfertFunctionOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasBehaviour" eType="#//ProcessorBehaviourModel"
+        eOpposite="#//ProcessorBehaviourModel/describesBehaviorOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasResponsible" eType="#//HumanResource"
+        eOpposite="#//HumanResource/responsibleOf"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="actionType" lowerBound="1"
+        eType="#//ActionType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Project" eSuperTypes="#//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Concept permettant d'initialiser le travail de modélisation et d'analyse de RESIIST : première classe instanciée"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="studyMembers" upperBound="-1"
+        eType="#//Stakeholder"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modellingData" upperBound="-1"
+        eType="#//PlatformFramework_Entity" containment="true" eOpposite="#//PlatformFramework_Entity/project"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="focusOnSystemOfInterest"
+        eType="#//System" eOpposite="#//System/isSystemOfInterestOfProject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PreferenceModel" eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Modèle de préférence d'une partie prenante (Stakeholder) pour aller vers un processus d'aide à la décision, dans le cadre d'une stratégie fixée par cette partie prenante"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refersToContextDescribedBy"
+        upperBound="-1" eType="#//ContextModel" eOpposite="#//ContextModel/describesContextOfPreferenceModel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="correspondsToStakeholders"
+        upperBound="-1" eType="#//Stakeholder" eOpposite="#//Stakeholder/hasPreferenceModels"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="correspondsToDecisionStrategies"
+        upperBound="-1" eType="#//DecisionStrategy" eOpposite="#//DecisionStrategy/promotesPreferenceModels"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allowsHandlingConcerns"
+        upperBound="-1" eType="#//Characteristic" eOpposite="#//Characteristic/handledInPreferenceModels"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessorBehaviourModel" eSuperTypes="#//GraphicalDSML">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(DSML) permet de décrire le comportement (attendu, constaté, moyen, ...) d'une fonction, d'une activité ou d'un processus (Processor)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="describesBehaviorOf" eType="#//Processor"
+        eOpposite="#//Processor/hasBehaviour"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modellingFunctions" upperBound="-1"
+        eType="#//ModellingFunction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Property" eSuperTypes="#//Characteristic">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A knowledge (an expectation, a requirement) that characterizes an object. Particularly here concerned, defines a Non-Functional property (or so-called '-ility' e.g. Safety, Security, Interoperability, Performance, and resilience).&#xA;A non-functional requirement described as an “ability to respond to changes, both foreseeable and unforeseeable” focusing on “how the SoS should be and not what it should do” &#xA;A developmental, operational, and support requirements a program must address (e.g. availability, maintainability, vulnerability, reliability, supportability) which are generally non-functional and inter dependent requirements.&#xA;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="localVariables" upperBound="-1"
+        eType="#//ModellingVariable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isSatisfiedAs" eType="#//SatisfactionLevel"
+        defaultValueLiteral="Not defined"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isEvaluatedAs" eType="#//EvaluationLevels"
+        defaultValueLiteral="Not defined"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="propertyIndicators" upperBound="-1"
+        eType="#//Indicator" eOpposite="#//Indicator/evaluatesProperties"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyClass" eType="#//PropertyClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="effects" upperBound="-1"
+        eType="#//Characteristic"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="causes" upperBound="-1"
+        eType="#//Characteristic"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tetaCause" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="True"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tetaInfluence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tetaEffect" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="True"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allowsToAnalyseAndCheck"
+        upperBound="-1" eType="#//Concern" eOpposite="#//Concern/isDependentFrom"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//Concern">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A SMART and formalized expectation of one or more System's Stakehoders"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="correspondsWithValues"
+        upperBound="-1" eType="#//Value" eOpposite="#//Value/hasSensesWithRequirements"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//RequirementType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Risk" eSuperTypes="#//NamedObjectWithOperationalSemanticDescription #//FlowConnectibleElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//RiskType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gravity" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"
+        defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="occurence" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"
+        defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mayImpact" upperBound="-1"
+        eType="#//ModellingElement" eOpposite="#//ModellingElement/maySufferFromEffectsOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasEffects" upperBound="-1"
+        eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="effects" upperBound="-1"
+        eType="#//Effect" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="beginsIfOccurneceOf" upperBound="-1"
+        eType="#//Event" eOpposite="#//Event/starsEvent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="endsWhenOccurrenceOf" upperBound="-1"
+        eType="#//Event" eOpposite="#//Event/stopsEvent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="canOccurWhen" upperBound="-1"
+        eType="#//Event" eOpposite="#//Event/initializesPossibilityOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="canBeReinforcedwhen" upperBound="-1"
+        eType="#//Event" eOpposite="#//Event/reinforces"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RiskManagementModel" eSuperTypes="#//GraphicalDSML">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="FMI" upperBound="-1" eType="#//Processor"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+        eType="#//Event"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="risks" upperBound="-1"
+        eType="#//Risk"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="frontierSystemsToBeConsidered"
+        upperBound="-1" eType="#//System"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="characteristics" upperBound="-1"
+        eType="#//Characteristic"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="effects" upperBound="-1"
+        eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="barriers" upperBound="-1"
+        eType="#//System"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" eType="#//System"
+        eOpposite="#//System/risksManagementModels"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource" abstract="true" eSuperTypes="#//NamedObjectWithOperationalSemanticDescription #//DecomposableFlowConnectibleElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Classe abstraite) Mécanisme ou source de choses mises à disposition pour permettre à un objet de type Processor de pouvoir s'exécuter et remplir ses objectifs."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceQuantity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceLocation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCapabilities" upperBound="-1"
+        eType="#//Capability" eOpposite="#//Capability/canBeProvidedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceIsAvailable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="carriedBy" eType="#//Flow"
+        eOpposite="#//Flow/carries"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="available" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//TextualDSML">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="brokersWithTransformationRules"
+        upperBound="-1" eType="#//Broker" eOpposite="#//Broker/transformationRules"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="brokersWithTemporalAlignementRules"
+        upperBound="-1" eType="#//Broker" eOpposite="#//Broker/temporalAlignmentRules"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executionRuleOf" eType="#//XviModel"
+        eOpposite="#//XviModel/executionRules"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Service" eSuperTypes="#//ConnexionInteraction">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Un service est vu ici comme une interaction souhaitée entre le système et les système qui tapissent sont environnement (voir ContexteDiagram). Un service nécessaite donc de disposer d'interfaces de part et d'autre, de flux et de lien(s) transportant ces flux pour que le service soit opérationnel. Un service entrant dans le système est un service dont le système a besoin pour remplir sa mission. L'ensemble des services rendus forme la mission du système, que celui-ci doit donc mener dans le cadre de sa finalité (pourquoi existe-t-il ?)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containsFlows" upperBound="-1"
+        eType="#//Flow" eOpposite="#//Flow/service"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containsLinks" upperBound="-1"
+        eType="#//Link" eOpposite="#//Link/service"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestInterfaces" upperBound="-1"
+        eType="#//Interface" eOpposite="#//Interface/requestedForDelivering"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="serviceEvokesProcessors"
+        upperBound="-1" eType="#//Processor" eOpposite="#//Processor/evocatedByService"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationDashboard" eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Définit et formalise un tableau noir sur lequel les moniteurs de modèles viennent déposer des messages (outputMessages) et lire les messages (inputMessages) qui leur sont destinés"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderedMessages" upperBound="-1"
+        eType="#//SimulationMessage" eOpposite="#//SimulationMessage/simulationdashboard"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reconciliedLogicalTimeUnit"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="federatedMonitors" upperBound="-1"
+        eType="#//SimulationMonitor" eOpposite="#//SimulationMonitor/centralizedDashboard"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationMonitor" eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Définit et formalise un moniteur prenant en charge l'éxécution i.e. la simulation comportementale, des instances d'un DSML donné i.e. de modèles conformes à ce DSML"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputMessages" upperBound="-1"
+        eType="#//SimulationMessage" eOpposite="#//SimulationMessage/for"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputMessages" upperBound="-1"
+        eType="#//SimulationMessage" eOpposite="#//SimulationMessage/from"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="logicalTimeUnit" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operationalSemanticRules"
+        upperBound="-1" eType="#//Rule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="localVariables" upperBound="-1"
+        eType="#//Characteristic"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="centralizedDashboard" lowerBound="1"
+        eType="#//SimulationDashboard" eOpposite="#//SimulationDashboard/federatedMonitors"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationMessage" eSuperTypes="#//ModellingElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Définit et formalise le message envoyé par un moniteur de DSML vers le dashboard de simulation en cours de simulation fédérée"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="simulationdashboard" eType="#//SimulationDashboard"
+        eOpposite="#//SimulationDashboard/orderedMessages"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="for" upperBound="-1" eType="#//SimulationMonitor"
+        eOpposite="#//SimulationMonitor/inputMessages"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//SimulationMonitor"
+        eOpposite="#//SimulationMonitor/outputMessages"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Stakeholder" eSuperTypes="#//HumanResource">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Partie prenante incluant les 9 classes de parties prenantes communément admises"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="memberOf" upperBound="-1"
+        eType="#//Stakeholder" eOpposite="#//Stakeholder/members"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" upperBound="-1"
+        eType="#//Stakeholder" eOpposite="#//Stakeholder/memberOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="represents" upperBound="-1"
+        eType="#//System" eOpposite="#//System/representedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="determines" upperBound="-1"
+        eType="#//Concern" eOpposite="#//Concern/fixedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasPreferenceModels" upperBound="-1"
+        eType="#//PreferenceModel" eOpposite="#//PreferenceModel/correspondsToStakeholders"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressesDecisionStrategy"
+        upperBound="-1" eType="#//DecisionStrategy" eOpposite="#//DecisionStrategy/expressedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isAuthorOf" upperBound="-1"
+        eType="#//XviModel" eOpposite="#//XviModel/modelAuthors"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="System" eSuperTypes="#//DecomposableFlowConnectibleElement #//NamedObjectWithOperationalSemanticDescription">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="The term system is used in this International Standard to refer to entities whose architectures are of interest. The term system is intended to encompass, but is not limited to, “systems that are man-made and may be configured with one or more of the following: hardware, software, data, humans, processes (e.g., processes for providing service to users), procedures (e.g. operator instructions), facilities, materials and naturally occurring entities”.&#xA;&#xA;Stakeholders ascribe various purposes to a system. Purposes are one kind of concern. &#xA;NOTE 1 The term purpose as used in this International Standard derives from its use in ISO/IEC 15288:2008, 4.31: a system is a combination of interacting elements organized to achieve one or more stated purposes. &#xA;&#xA;A system is situated in an environment. The environment determines the totality of influences upon the system throughout its life cycle, including its interactions with that environment. The environment of a system can contain other systems. &#xA;NOTE 2 In this International Standard, the environment of a system is bounded by and understood through the identification and analysis of the system’s stakeholders and their concerns.&#xA;&#xA;The architecture of a system constitutes what is essential about that system considered in relation to its environment. There is no single characterization of what is essential or fundamental to a system; that characterization could pertain to any or all of:&#xA;•&#x9;system constituents or elements;&#xA;•&#x9;how system elements are arranged or interrelated;&#xA;•&#x9;principles of the system’s organization or design;&#xA;•&#x9;principles governing the evolution of the system over its life cycle. &#xA;Architecture descriptions are used to express architectures for systems of interest&#xA;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="missionDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="finalityDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="physicalModels" upperBound="-1"
+        eType="#//PhysicalArchitectureModel" eOpposite="#//PhysicalArchitectureModel/systems"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="functionalModels" upperBound="-1"
+        eType="#//FunctionalArchitectureModel" eOpposite="#//FunctionalArchitectureModel/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contextModel" eType="#//ContextModel"
+        eOpposite="#//ContextModel/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="influenceDiagramModels"
+        upperBound="-1" eType="#//InfluenceRelationsModel" eOpposite="#//InfluenceRelationsModel/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasAttributesAndProperties"
+        upperBound="-1" eType="#//Characteristic"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="representedBy" upperBound="-1"
+        eType="#//Stakeholder" eOpposite="#//Stakeholder/represents"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dmu" eType="#//DMU" eOpposite="#//DMU/focusOn"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="systemType" lowerBound="1"
+        eType="#//SystemType" defaultValueLiteral="Not_yet_defined"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isEnablingSystem" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="performedBy" upperBound="-1"
+        eType="#//Processor" eOpposite="#//Processor/performs"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reducesImpactOf" upperBound="-1"
+        eType="#//ConnexionInteraction" eOpposite="#//ConnexionInteraction/potentiallyReducedByBarrier"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="capabilities" upperBound="-1"
+        eType="#//Capability" eOpposite="#//Capability/providedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valuesRequirementsModel"
+        upperBound="-1" eType="#//ConcernModel" eOpposite="#//ConcernModel/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isSystemOfInterestOfProject"
+        eType="#//Project" eOpposite="#//Project/focusOnSystemOfInterest"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataSourceOf" upperBound="-1"
+        eType="#//DataSource" eOpposite="#//DataSource/concern"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="risksManagementModels"
+        upperBound="-1" eType="#//RiskManagementModel" eOpposite="#//RiskManagementModel/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decisionModels" upperBound="-1"
+        eType="#//DecisionModel" eOpposite="#//DecisionModel/system"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnicalResource" eSuperTypes="#//Resource">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Ressource de type Technique : Matérielle / Logicielle / Mixte"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="toolType" eType="#//ToolType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TextualDSML" eSuperTypes="#//XviModel">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="(Classe Abstraite) regroupe les DSML dont la syntaxe concrète est de nature textuelle (e.g. Java, GAML, ...)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelsFunction" eType="#//ModellingFunction"
+        eOpposite="#//ModellingFunction/codedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comments" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tool" eSuperTypes="#//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Description d'un outil informatique (de modélisation, de gestion de données, de type capteur, ...) amené à interopérer avec la plate forme RESIIST"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="executionPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedBy" upperBound="-1"
+        eType="#//DMU" eOpposite="#//DMU/usesTools"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rolesAndUsages" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interoperableWith" upperBound="-1"
+        eType="#//Tool"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//ToolType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Value" eSuperTypes="#//Concern">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Anything positively or negatively weighted as a guide to action (for example, needs, wishes and preferences)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasSensesWithRequirements"
+        upperBound="-1" eType="#//Requirement" eOpposite="#//Requirement/correspondsWithValues"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valuesOf" upperBound="-1"
+        eType="#//ModellingElement" eOpposite="#//ModellingElement/hasValues"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ActionType">
+    <eLiterals name="NotYetDefined"/>
+    <eLiterals name="Preventive" value="1"/>
+    <eLiterals name="Corrective" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CapabilityType">
+    <eLiterals name="To_perform_action"/>
+    <eLiterals name="To_manage" value="1"/>
+    <eLiterals name="To_decide" value="2"/>
+    <eLiterals name="To_control" value="3" literal=""/>
+    <eLiterals name="To_store" value="4"/>
+    <eLiterals name="To_transport" value="5"/>
+    <eLiterals name="To_design" value="6"/>
+    <eLiterals name="To_validate" value="7"/>
+    <eLiterals name="To_verify" value="8"/>
+    <eLiterals name="To_optimise" value="9"/>
+    <eLiterals name="To_evaluate" value="10"/>
+    <eLiterals name="Other_cases" value="11"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CapacityLevelType">
+    <eLiterals name="Not_Defined" literal="Not_Defined"/>
+    <eLiterals name="Very_good" value="1"/>
+    <eLiterals name="Good" value="2"/>
+    <eLiterals name="Medium" value="3"/>
+    <eLiterals name="With_no_experience" value="4"/>
+    <eLiterals name="Beginner" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DataSourceType">
+    <eLiterals name="not_yet_defined" literal="Not Yet Defined"/>
+    <eLiterals name="PhysicalSensor" value="1"/>
+    <eLiterals name="ExternalDataBase" value="2"/>
+    <eLiterals name="ProprietaryDataBase" value="3"/>
+    <eLiterals name="Expertise" value="4"/>
+    <eLiterals name="Document" value="5"/>
+    <eLiterals name="SocialNetwork" value="6"/>
+    <eLiterals name="Other" value="7"/>
+    <eLiterals name="LogicalSensor" value="8"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DataType">
+    <eLiterals name="Not_yet_defined" literal="Not defined"/>
+    <eLiterals name="String" value="1"/>
+    <eLiterals name="Integer" value="2"/>
+    <eLiterals name="Real" value="3"/>
+    <eLiterals name="Boolean" value="4"/>
+    <eLiterals name="List" value="5"/>
+    <eLiterals name="Concept" value="6"/>
+    <eLiterals name="Relation" value="7"/>
+    <eLiterals name="Enumeration" value="8"/>
+    <eLiterals name="Attribute" value="9"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DefinitionDomainType">
+    <eLiterals name="Undefined"/>
+    <eLiterals name="Z" value="1"/>
+    <eLiterals name="Real_R" value="2"/>
+    <eLiterals name="Boolean" value="3" literal="Boolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DocumentFormat">
+    <eLiterals name="Not_yet_defined" literal="Not_yet_defined"/>
+    <eLiterals name="Text" value="1" literal="txt_rtf_doc_docx_pdf"/>
+    <eLiterals name="Image" value="2" literal="jpg_tiff_gif_bmp_scr"/>
+    <eLiterals name="Voice" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DocumentType">
+    <eLiterals name="Not_yet_defined" literal="Not defined"/>
+    <eLiterals name="Specification" value="1"/>
+    <eLiterals name="Report" value="2"/>
+    <eLiterals name="Plan" value="3"/>
+    <eLiterals name="Normative" value="4"/>
+    <eLiterals name="Comment" value="5"/>
+    <eLiterals name="Technical_Documentation" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EvaluationLevels">
+    <eLiterals name="Not_yet_defined" literal="Not defined"/>
+    <eLiterals name="With_incertitudes" value="1" literal="with_relative_incertitude"/>
+    <eLiterals name="Complete" value="2" literal="evaluation_completed"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FieldType">
+    <eLiterals name="Not_yet_defined" literal="[Not yet defined] "/>
+    <eLiterals name="Mechanical_Gravitation" value="1" literal="[Mechanical] Gravitation"/>
+    <eLiterals name="Mechanical_Friction" value="2" literal="[Mechanical] Friction"/>
+    <eLiterals name="Mechanical_Inertial_force" value="3" literal="[Mechanical] Inertial force"/>
+    <eLiterals name="Mechanical_Centrifugal_force" value="4" literal="[Mechanical] Centrifugal force"/>
+    <eLiterals name="Mechanical_Coriolis_force" value="5" literal="[Mechanical] Coriolis force"/>
+    <eLiterals name="Mechanical_Tension" value="6" literal="[Mechanical] Tension"/>
+    <eLiterals name="Mechanical_Compression" value="7" literal="[Mechanical] Compression"/>
+    <eLiterals name="Mechanical_Elasticity" value="8" literal="[Mechanical] Elasticity"/>
+    <eLiterals name="Mechanical_Reaction_and_counter_raction" value="9" literal="[Mechanical] Reaction and counter raction"/>
+    <eLiterals name="Mechanical_Vibration" value="10" literal="[Mechanical] Vibration"/>
+    <eLiterals name="Hydraulic_Pneumatic_Hydrostatic_force" value="11" literal="[Hydraulic Pneumatic] Hydrostatic force"/>
+    <eLiterals name="Hydraulic_Pneumatic_Hydrodynamic_force" value="12" literal="[Hydraulic Pneumatic] Hydrodynamic force"/>
+    <eLiterals name="Hydraulic_Pneumatic_Aerostatic_force" value="13" literal="[Hydraulic Pneumatic] Aerostatic force"/>
+    <eLiterals name="Hydraulic_Pneumatic_Aerosdynamic_force" value="14" literal="[Hydraulic Pneumatic] Aerosdynamic force"/>
+    <eLiterals name="Hydraulic_Pneumatic_Surface_tension" value="15" literal="[Hydraulic Pneumatic] Surface tension"/>
+    <eLiterals name="Thermal_Conduction" value="16" literal="[Thermal] Conduction"/>
+    <eLiterals name="Thermal_Convection" value="17" literal="[Thermal] Convection"/>
+    <eLiterals name="Thermal_Radiation" value="18" literal="[Thermal] Radiation"/>
+    <eLiterals name="Thermal_Static_temperature_gradient" value="19" literal="[Thermal] Static temperature gradient"/>
+    <eLiterals name="Thermal_Dynamic_temperature_gradient" value="20" literal="[Thermal] Dynamic temperature gradient"/>
+    <eLiterals name="Thermal_Thermal_expansion" value="21" literal="[Thermal] Thermal expansion"/>
+    <eLiterals name="Thermal_Insulation" value="22" literal="[Thermal] Insulation"/>
+    <eLiterals name="Pressure_Static_gradient_of_pression" value="23" literal="[Pressure] Static gradient of pression"/>
+    <eLiterals name="Pressure_Dynamic_gradient_of_pression" value="24" literal="[Pressure] Dynamic gradient of pression"/>
+    <eLiterals name="Pressure_Space_variation_of_pressure" value="25" literal="[Pressure] Space variation of pressure"/>
+    <eLiterals name="Pressure_Temporal_variation_of_pressure" value="26" literal="[Pressure] Temporal variation of pressure"/>
+    <eLiterals name="Pressure_Ascensional_force" value="27" literal="[Pressure] Ascensional force"/>
+    <eLiterals name="Pressure_Magnus_effect" value="28" literal="[Pressure] Magnus effect"/>
+    <eLiterals name="Pressure_Vide" value="29" literal="[Pressure] Vide"/>
+    <eLiterals name="Pressure_Choc" value="30" literal="[Pressure] Choc"/>
+    <eLiterals name="Electric_Electrostatic_" value="31" literal="[Electric] Electrostatic "/>
+    <eLiterals name="Electric_Electrodynamic" value="32" literal="[Electric] Electrodynamic"/>
+    <eLiterals name="Electric_Electrophorese" value="33" literal="[Electric] Electrophorese"/>
+    <eLiterals name="Electric_Alternance" value="34" literal="[Electric] Alternance"/>
+    <eLiterals name="Electric_Induction" value="35" literal="[Electric] Induction"/>
+    <eLiterals name="Electric_Electromagnetic" value="36" literal="[Electric] Electromagnetic"/>
+    <eLiterals name="Electric_Capacitive" value="37" literal="[Electric] Capacitive"/>
+    <eLiterals name="Electric_Pizeo_effect" value="38" literal="[Electric] Pizeo effect"/>
+    <eLiterals name="Electric_Rectification" value="39" literal="[Electric] Rectification"/>
+    <eLiterals name="Electric_Transformation" value="40" literal="[Electric] Transformation"/>
+    <eLiterals name="Chemical_Oxydation" value="41" literal="[Chemical] Oxydation"/>
+    <eLiterals name="Chemical_Reduction" value="42" literal="[Chemical] Reduction"/>
+    <eLiterals name="Chemical_Diffusion" value="43" literal="[Chemical] Diffusion"/>
+    <eLiterals name="Chemical_Combustion" value="44" literal="[Chemical] Combustion"/>
+    <eLiterals name="Chemical_Dissolution" value="45" literal="[Chemical] Dissolution"/>
+    <eLiterals name="Chemical_Combination" value="46" literal="[Chemical] Combination"/>
+    <eLiterals name="Chemical_Transformation" value="47" literal="[Chemical] Transformation"/>
+    <eLiterals name="Chemical_Electrolyte" value="48" literal="[Chemical] Electrolyte"/>
+    <eLiterals name="Chemical_Endothermic" value="49" literal="[Chemical] Endothermic"/>
+    <eLiterals name="Chemical_Exothermic" value="50" literal="[Chemical] Exothermic"/>
+    <eLiterals name="Biological_Enzymatic" value="51" literal="[Biological] Enzymatic"/>
+    <eLiterals name="Biological_Photosynthesis" value="52" literal="[Biological] Photosynthesis"/>
+    <eLiterals name="Biological_Catabolism" value="53" literal="[Biological] Catabolism"/>
+    <eLiterals name="Biological_Anabolism" value="54" literal="[Biological] Anabolism"/>
+    <eLiterals name="Biological_Osmosis" value="55" literal="[Biological] Osmosis"/>
+    <eLiterals name="Biological_Reproduction" value="56" literal="[Biological] Reproduction"/>
+    <eLiterals name="Biological_Decay_effect" value="57" literal="[Biological] Decay effect"/>
+    <eLiterals name="Biological_Fermentation" value="58" literal="[Biological] Fermentation"/>
+    <eLiterals name="Magnetic_Static" value="59" literal="[Magnetic] Static"/>
+    <eLiterals name="Magnetic_Alternative" value="60" literal="[Magnetic] Alternative"/>
+    <eLiterals name="Magnetic_Ferromagnetism" value="61" literal="[Magnetic] Ferromagnetism"/>
+    <eLiterals name="Magnetic_Electromagnetism" value="62" literal="[Magnetic] Electromagnetism"/>
+    <eLiterals name="Nuclear_Low_level_attraction_force" value="63" literal="[Nuclear] Low level attraction force"/>
+    <eLiterals name="Nuclear_High_level_attraction_force" value="64" literal="[Nuclear] High level attraction force"/>
+    <eLiterals name="Optical_Reflexion" value="65" literal="[Optical] Reflexion"/>
+    <eLiterals name="Optical_Refraction" value="66" literal="[Optical] Refraction"/>
+    <eLiterals name="Optical_Diffraction" value="67" literal="[Optical] Diffraction"/>
+    <eLiterals name="Optical_Interference" value="68" literal="[Optical] Interference"/>
+    <eLiterals name="Optical_Polarisation" value="69" literal="[Optical] Polarisation"/>
+    <eLiterals name="Optical_Infra_red" value="70" literal="[Optical] Infra red"/>
+    <eLiterals name="Optical_Ultra_violet" value="71" literal="[Optical] Ultra violet"/>
+    <eLiterals name="Optical_Visible_light" value="72" literal="[Optical] Visible light"/>
+    <eLiterals name="Acoustic_Wave" value="73" literal="[Acoustic] Wave"/>
+    <eLiterals name="Acoustic_Ultra_wave" value="74" literal="[Acoustic] Ultra wave"/>
+    <eLiterals name="Olfactive" value="75" literal="[Olfactive] "/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FlowType">
+    <eLiterals name="Not_yet_defined" literal="Not defined"/>
+    <eLiterals name="Continuous" value="1"/>
+    <eLiterals name="Discrete" value="2"/>
+    <eLiterals name="Hybrid" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ImpactInterpretation">
+    <eLiterals name="Not_known"/>
+    <eLiterals name="Good_and_Present" value="1"/>
+    <eLiterals name="Good_but_Absent" value="2"/>
+    <eLiterals name="Good_but_Insufficient" value="3"/>
+    <eLiterals name="Good_but_Too_Important" value="4"/>
+    <eLiterals name="Harmful" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="IndicatorType">
+    <eLiterals name="NotYetDefined"/>
+    <eLiterals name="Qualitative" value="1"/>
+    <eLiterals name="Quantitative" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="InfluenceInterpretation">
+    <eLiterals name="Equal" literal="Varies in the same way"/>
+    <eLiterals name="DegradesWhenGrowing" value="1" literal="Degrades when growing"/>
+    <eLiterals name="ImprovesWhenDecreasing" value="2" literal="Improves When Decreasing"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="InterfaceType">
+    <eLiterals name="Composite" literal="Complex i.e. mix"/>
+    <eLiterals name="Logico_Functional" value="1"/>
+    <eLiterals name="Physical" value="2"/>
+    <eLiterals name="HMI" value="3"/>
+    <eLiterals name="Organisational" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="InterfaceObjectiveType">
+    <eLiterals name="Composite_objectives"/>
+    <eLiterals name="To_attach_and_solidarise" value="1"/>
+    <eLiterals name="To_transfer_flows" value="2"/>
+    <eLiterals name="To_exchange_with_environment" value="3"/>
+    <eLiterals name="To_communicate" value="4"/>
+    <eLiterals name="To_protect" value="5"/>
+    <eLiterals name="To_control" value="6"/>
+    <eLiterals name="To_allow_user_interaction" value="6"/>
+    <eLiterals name="To_prevent_risks" value="7"/>
+    <eLiterals name="Other" value="8"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LinkType">
+    <eLiterals name="Not_yet_defined" literal="Not defined"/>
+    <eLiterals name="Collaboration" value="1"/>
+    <eLiterals name="Delegation" value="2"/>
+    <eLiterals name="Synchronisation" value="3"/>
+    <eLiterals name="Protocol" value="4"/>
+    <eLiterals name="Physical_Radio" value="5"/>
+    <eLiterals name="Physical_Magnetic" value="6"/>
+    <eLiterals name="Physical_Optical" value="7"/>
+    <eLiterals name="Physical_Mechanical" value="8"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MeasureUnit">
+    <eLiterals name="Not_yet_defined" literal="Not defined"/>
+    <eLiterals name="Meter" value="1"/>
+    <eLiterals name="Second" value="2"/>
+    <eLiterals name="Newton" value="3" literal="Other"/>
+    <eLiterals name="Gram" value="4"/>
+    <eLiterals name="Square_meter" value="5"/>
+    <eLiterals name="Cube_meter" value="6"/>
+    <eLiterals name="Ampere" value="7"/>
+    <eLiterals name="Volt" value="8"/>
+    <eLiterals name="Other" value="9" literal="Other measure unit"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ObjectiveNature">
+    <eLiterals name="Not_yet_defined"/>
+    <eLiterals name="Performance" value="1"/>
+    <eLiterals name="Cost" value="2"/>
+    <eLiterals name="Delay" value="3"/>
+    <eLiterals name="Human" value="4"/>
+    <eLiterals name="Organisational" value="5"/>
+    <eLiterals name="Environmental" value="6"/>
+    <eLiterals name="Economic" value="7"/>
+    <eLiterals name="Policy" value="8"/>
+    <eLiterals name="Other" value="9"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PatternState">
+    <eLiterals name="In_Progress" literal="IN_PROGRESS"/>
+    <eLiterals name="Obsolete" value="1" literal="OBSOLETE"/>
+    <eLiterals name="Not_Valid" value="2" literal="UNVALID"/>
+    <eLiterals name="Valid" value="3" literal="VALID"/>
+    <eLiterals name="Waiting_for_Validation" value="4" literal="WAITING_FOR_VALIDATION"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PhysicalInterfaceType">
+    <eLiterals name="Electrical_Analogic_Digital_Connector"/>
+    <eLiterals name="Mechanical" value="1"/>
+    <eLiterals name="Electro_Magnetic" value="2"/>
+    <eLiterals name="Thermal" value="3"/>
+    <eLiterals name="Acoustic" value="4"/>
+    <eLiterals name="Fluid_connector_valve" value="5" literal="Fluid_connector_valve"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ProcessorType">
+    <eLiterals name="Scenario"/>
+    <eLiterals name="Activity" value="1"/>
+    <eLiterals name="Process" value="2"/>
+    <eLiterals name="Function" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PropertyClass">
+    <eLiterals name="Not_yet_defined" literal="Not Yet Defined (NFP-FP)"/>
+    <eLiterals name="Resilience" value="1"/>
+    <eLiterals name="Interoperability" value="2"/>
+    <eLiterals name="Robustness" value="3"/>
+    <eLiterals name="Availability" value="4"/>
+    <eLiterals name="Maintainability" value="5"/>
+    <eLiterals name="Safety" value="6"/>
+    <eLiterals name="Security" value="7"/>
+    <eLiterals name="FunctionalProperty" value="8" literal="Functional Property"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RequirementType">
+    <eLiterals name="Performance"/>
+    <eLiterals name="Resilience" value="2"/>
+    <eLiterals name="Safety" value="3"/>
+    <eLiterals name="Security" value="4"/>
+    <eLiterals name="Other_Non_Functional_Property" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ResourceType">
+    <eLiterals name="Not_yet_defined" literal="Not_yet_defined"/>
+    <eLiterals name="Energy" value="1"/>
+    <eLiterals name="Raw_material" value="2"/>
+    <eLiterals name="Finished_or_semi_finished_product" value="3" literal="Finished_or_semi_finished_product"/>
+    <eLiterals name="Data_Information_Knowledge" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RiskType">
+    <eLiterals name="NotYetDefined"/>
+    <eLiterals name="Managerial" value="1"/>
+    <eLiterals name="Technical" value="2"/>
+    <eLiterals name="Human" value="3"/>
+    <eLiterals name="Environnemental" value="4"/>
+    <eLiterals name="Financial" value="5"/>
+    <eLiterals name="Composite" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SatisfactionLevel">
+    <eLiterals name="Not_yet_defined" literal="Not defined"/>
+    <eLiterals name="Partially_satisfied" value="1" literal="partially satisfied"/>
+    <eLiterals name="Satisfied" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SystemType">
+    <eLiterals name="Not_yet_defined"/>
+    <eLiterals name="Critical_Infrastructure" value="1" literal="Critical_Infrastructure"/>
+    <eLiterals name="Networked_System" value="2" literal="Networked_System"/>
+    <eLiterals name="System" value="3"/>
+    <eLiterals name="Information_System" value="4" literal="Information_System"/>
+    <eLiterals name="Technical_Component" value="5" literal="Technical_Component"/>
+    <eLiterals name="Organisation_Unit" value="6" literal="Organisation_Unit"/>
+    <eLiterals name="Logical_component" value="7"/>
+    <eLiterals name="Tool" value="8"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ToolType">
+    <eLiterals name="NotDefined"/>
+    <eLiterals name="Modelling" value="1"/>
+    <eLiterals name="ModelExecution" value="2"/>
+    <eLiterals name="ComputationalAnalysis" value="3"/>
+    <eLiterals name="Visualization" value="4"/>
+    <eLiterals name="DataManagement" value="5"/>
+    <eLiterals name="DataIntegration" value="6"/>
+    <eLiterals name="ModelTransformation" value="7"/>
+    <eLiterals name="TemporalChecking" value="8"/>
+    <eLiterals name="Other" value="9"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="VVStatus">
+    <eLiterals name="ModelIsUnderConstruction"/>
+    <eLiterals name="ModelIsChecked" value="1"/>
+    <eLiterals name="ModelIsCheckedAndValidated" value="2"/>
+    <eLiterals name="ModelIsObsolete" value="3"/>
+    <eLiterals name="ModelIsForREX" value="4"/>
+  </eClassifiers>
+</ecore:EPackage>
