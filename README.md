@@ -1,12 +1,12 @@
-# Transformateur UML (plateforme GenMyModel) vers le langage gaml (plateforme Gama)
+# Transformateur: de l'UML (plateforme GenMyModel) au langage gaml (plateforme Gama)
 
 Le transformateur permet de convertir une modélisation UML réalisée au travers de l'outil [GenMyModel](https://www.genmymodel.com/) d'[Axellience](https://www.axellience.com/) vers du code gaml exécutable au travers de la plateforme [Gama](https://gama-platform.github.io/).
 
 ## Installation
 
-Le script python transformateur.py nécessite une version supérieure ou égale à la 3.6 et les dépendances suivantes:
+Le script python transformateur.py nécessite une version supérieure ou égale à la 3.6 ainsi que les dépendances suivantes:
 
-* Beautiful Soup (bs4) avec le parser xml
+* Beautiful Soup (bs4) et le parser lxml
 * Jinja2
 
 ```
@@ -17,9 +17,9 @@ pip install -r requirements.txt
 
 Le cas d'utilisation [proies/prédateurs](https://gama-platform.github.io/wiki/PredatorPrey) proposé par la plateforme Gama sera notre projet référent afin de comprendre le fonctionnement et les possibilités offertes par le transformateur.
 
-### Spécificité du langage gaml
+### Comprendre les spécificités du langage gaml
 
-Prenons le code gaml de la [première étape](https://gama-platform.github.io/wiki/PredatorPrey_step1) détaillée pour l'exemple proies/prédateurs et tachons d'en extraire les principales parties.
+Prenons le code gaml de la [première étape](https://gama-platform.github.io/wiki/PredatorPrey_step1) comme exemple et tachons d'en extraire et comprendre les principales parties.
 
 ```
 model prey_predator
@@ -50,18 +50,18 @@ experiment prey_predator type: gui {
 }
 ```
 
-Décrivons les différentes sections:
-* <b>global</b>: ce bloc d'instruction permet de déclarer et d'instancier des variables globales au programme. Au sein de ce bloc, nous avons la fonction <b>init</b> permettant d'instancier nos agents (dans cet exemple 200 proies vont être créées lors de la simulation).
+Au sein du code ci-dessus, trois principales sections se distinguent.
+* <b>global</b>: ce bloc d'instructions permet de déclarer et d'instancier des variables globales à la simulation. Au sein de ce bloc, nous avons la fonction <b>init</b> permettant d'instancier nos agents (dans cet exemple 200 proies vont être créées lors de la simulation).
 * <b>déclaration des <i>species</i></b>: cette partie décrit les caractéristiques de nos agents (variables, fonctions, etc.).
 * <b>experiment</b>: ce bloc permet d'instancier une nouvelle expérience au sein de Gama.
 
-A noter que le langage gaml inclut, au travers des <i><b>facets</b></i>, la possibilité de paramétrer la déclaration d'une variable, d'une fonction ou bien d'une <i>species</i>. Dans l'exemple ci-dessous <i>number</i> est une <i>facet</i> de la fonction <i>create</i>.
+Une particularité du langage gaml est la possibilité de paramétrer la déclaration d'une variable, d'une fonction ou d'une <i>species</i> au travers de la notion de ***facet***. Dans l'exemple ci-dessous <i>number</i> est une <i>facet</i> de la fonction <i>create</i>, elle permet d'indiquer le nombre d'agents à instancier.
 
 ```
 create prey number: nb_preys_init ;
 ```
 
-### Création d'un diagramme de classes sous GenMyModel
+### Représentation sous GenMyModel
 
 Maintenant que nous avons pris connaissance de ces différentes parties, transcrivons les au sein de la plateforme GenMyModel. Créer un <b>nouveau diagramme de classes</b> et créer 4 packages avec les noms suivants:
 * <b>global</b>: ce package contient la déclaration de nos variables et fonctions globales.
@@ -69,7 +69,7 @@ Maintenant que nous avons pris connaissance de ces différentes parties, transcr
 * <b>meta_model</b>: ce package contient la déclaration de nos <i>species</i>.
 * <b>experiment</b>: ce package instancie le bloc <i>experiment</i>.
 
-<div style="width: 100%; text-align:center">
+<div align="center">
     <img src="images/class_diagram_overall.png" alt="drawing" width="800"/>
     <p><i>Diagramme de classes général.</i></p>
 </div>
@@ -78,7 +78,7 @@ Détaillons, désormais, les différents packages et leurs spécificités afin d
 
 Le <u>package <b>global</b></u> contient un diagramme de classes dans lequel nous devons créer une classe <i>global</i>.
 
-<div style="width: 100%; text-align:center">
+<div align="center">
     <img src="images/package_global.png" alt="drawing" width="200"/>
     <p><i>Classe global de l'exemple complet proies/prédateurs.</i></p>
 </div>
