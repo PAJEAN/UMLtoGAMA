@@ -203,3 +203,11 @@ python transformateur.py -f preyPredator
 ```
 
 Le code généré est déposé au sein du répertoire <i>outputs/</i>.
+
+Pour générer la structure du fichier *json* à partir du fichier *xmi*, utilisez la commande suivante:
+
+```
+python transformateur.py -j preyPredator
+```
+
+où *preyPredator* est le nom du fichier *xmi* au sein du répertoire */data/models/*. Le fichier ainsi généré est déposé dans le dossier */data/gama/*.

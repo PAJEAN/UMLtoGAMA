@@ -11,7 +11,6 @@ error_codes = {
     'err2': lambda tag_name: f'Multiple inheritances detected to {tag_name}',
     'err3': lambda attr_type, tag_name: f'Type {attr_type} unknown to {tag_name}',
     'err4': lambda tag_name: f'Missing type to a {tag_name} attribute',
-    'err5': lambda operation_name, parent_name: f'Missing {operation_name} method to {parent_name}',
     'err6': lambda class_name: f'Missing a default value to a static attribute to {class_name}',
     'err7': lambda transition_name: f'Missing condition to {transition_name}',
     'err8': lambda source_id: f'Source id {source_id} not found on state index',
@@ -21,6 +20,7 @@ error_codes = {
     'err12': lambda attribute_id: f'Missing {attribute_id} attribute during instanciation',
     'err13': lambda: f'Experiment block must have only one class',
     'err14': lambda: f'An instance must have a classifier attribute (type)',
+    'err15': lambda class_name: f'{class_name} is not an object or has no name or operation attribute'
 }
 
 def raiseException(code, *args):
@@ -28,7 +28,8 @@ def raiseException(code, *args):
 
 warning_codes = {
     'warn1': lambda tag_name, attr_name: f'Missing {attr_name} attribute to {tag_name}',
-    'warn2': lambda operation_name: f'Multiple return statements detected to {operation_name} operation'
+    'warn2': lambda operation_name: f'Multiple return statements detected to {operation_name} operation',
+    'warn3': lambda operation_name, parent_name: f'Missing {operation_name} method to {parent_name}',
 }
 
 def raiseWarning(code, *args):
@@ -248,7 +249,7 @@ def getTypeValue(root, class_tags, enumeration_tags): # Some attributes can have
                 else:
                     raiseException('err3', attribute_type, root['name'])
             else:
-                raiseException('err4', root['name'])   
+                raiseException('err4', root['name'])
 
 # Determine if the attribute/operation type/return is a list of primitives/objects or a single value.
 def isList(root):
@@ -267,6 +268,28 @@ def convertDefaultValue(default_value, value_type):
     if value_type == 'string':
         default_value = '"%s"' % (default_value)
     return default_value
+
+# Skeleton of the json file.
+def buildJsonFileSkeleton(*args):
+
+    def extractClass(arg, json_file):
+        if isinstance(arg, object) and hasattr(arg, 'operations') and hasattr(arg, 'name'):
+            json_file[arg.name] = {}
+            for operation in arg.operations:
+                json_file[arg.name][operation.name] = ''
+        else:
+            raiseException('err15', arg)
+        return json_file
+
+    json_file = {}
+    for arg in args:
+        if isinstance(arg, list):
+            for el in arg:
+                json_file = extractClass(el, json_file)
+        else:
+            json_file = extractClass(arg, json_file)
+    return json_file
+    
 
 # State diagram.
 class UmlState:
@@ -425,8 +448,8 @@ class UmlOperation:
         parent_tag_name = getAttributeValue(root.parent, 'name')
         if parent_tag_name in UmlOperation.gaml_operations and self.name in UmlOperation.gaml_operations[parent_tag_name]:
             return UmlOperation.gaml_operations[parent_tag_name][self.name]
-        else:
-            raiseException('err5', self.name, parent_tag_name)
+        elif len(UmlOperation.gaml_operations) > 0:
+            raiseWarning('warn3', self.name, parent_tag_name)
     
     def translateToGaml(self):
         template = Template('''
@@ -445,6 +468,7 @@ class UmlOperation:
 # Global part of a gaml file.
 class GamlGlobal:
     def __init__(self, attributes, operations):
+        self.name = 'global'
         self.attributes = attributes
         self.operations = operations
         self.init = []
@@ -553,22 +577,22 @@ if __name__== "__main__":
     parser = argparse.ArgumentParser(description='Parameter --example 1 to run prey/predator or --example 2 to run Luneray\'s flu example.')
     parser.add_argument('--example', type=int, default=1, choices=range(1,3), help='Run an example 1 to run prey/predator and 2 to run Luneray\'s flu.')
     parser.add_argument('-f', '--file', type=str, help='Name of xmi and json files on data/gama and data/models repositories.')
+    parser.add_argument('-j', '--json', type=str, help='Build the json file according to the XMI file.')
     args = parser.parse_args()
 
-    if args.file:
-        xmi_file_path    = f'data/models/{args.file}.xmi'
-        json_file_path   = f'data/gama/{args.file}.json'
-        model_name = args.file
+    if args.file or args.json:
+        file_name = args.file if args.file else args.json
+        xmi_file_path    = f'data/models/{file_name}.xmi'
+        json_file_path   = f'data/gama/{file_name}.json'
+        model_name = file_name
     elif args.example == 1:
         xmi_file_path    = 'data/models/preyPredatorGlobal.xmi'
         json_file_path   = 'data/gama/prey_predator_functions.json'
         model_name = 'prey_predator'
-    else:
+    elif args.example == 2:
         xmi_file_path    = 'data/models/lunerayFlu.xmi'
         json_file_path   = 'data/gama/luneray.json'
         model_name = 'luneray_flu'
-
-    output_file_path = 'outputs/gen_src.gaml'
 
     if path.exists(xmi_file_path):
         with codecs.open(xmi_file_path, 'r', encoding='utf-8') as fin:
@@ -576,25 +600,32 @@ if __name__== "__main__":
     else:
         raiseException('err1', xmi_file_path)
     
-    if path.exists(json_file_path):
-        with codecs.open(json_file_path, 'r', encoding='utf-8') as fin:
-            UmlOperation.gaml_operations = json.load(fin)
-    else:
-        raiseException('err1', json_file_path)
+    if not args.json:
+        if path.exists(json_file_path):
+            with codecs.open(json_file_path, 'r', encoding='utf-8') as fin:
+                UmlOperation.gaml_operations = json.load(fin)
+        else:
+            raiseException('err1', json_file_path)
 
     # Meta model package.
     uml_classes = buildClassDiagram(xml_tree, 'meta_model')
     uml_global = getGlobal(xml_tree, uml_classes)
     uml_experiment = getExperiment(xml_tree)
 
-    with codecs.open(output_file_path, 'w', encoding='utf-8') as fout:
-        fout.write(f'model {model_name}\n')
-        if uml_global:
-            fout.write(uml_global.translateToGaml() + '\n')
-        if uml_experiment:
-            fout.write(uml_experiment.translateToGaml() + '\n')
-        for uml_class in uml_classes:
-            fout.write(uml_class.translateToGaml() + '\n')
+    if args.json:
+        with codecs.open(f'data/gama/{model_name}.json', 'w', encoding='utf-8') as fout:
+            json_file = buildJsonFileSkeleton(uml_classes, uml_global, uml_experiment)
+            fout.write(json.dumps(json_file, indent=4))
+    else:
+        output_file_path = 'outputs/gen_src.gaml'
+        with codecs.open(output_file_path, 'w', encoding='utf-8') as fout:
+            fout.write(f'model {model_name}\n')
+            if uml_global:
+                fout.write(uml_global.translateToGaml() + '\n')
+            if uml_experiment:
+                fout.write(uml_experiment.translateToGaml() + '\n')
+            for uml_class in uml_classes:
+                fout.write(uml_class.translateToGaml() + '\n')
     
     print(f'{model_name} executed in {round(time.time() - start_time, 3)} seconds.')
 
