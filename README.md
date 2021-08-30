@@ -2,18 +2,14 @@
 
 Le transformateur permet de convertir une modélisation UML réalisée au travers de l'outil [GenMyModel](https://www.genmymodel.com/) d'[Axellience](https://www.axellience.com/) vers du code gaml exécutable au travers de la plateforme [Gama](https://gama-platform.github.io/).
 
-## Installation
+<div align="center">
+    <img src="images/preview.png" alt="drawing" width="1000"/>
+    <p><i>Fonctionnement global de la chaîne de traitement.</i></p>
+</div>
 
-Le script python transformateur.py nécessite une version supérieure ou égale à la 3.6 ainsi que les dépendances suivantes:
+Comme nous pouvons le voir sur l'image ci-dessus, la transformation nécessite deux principaux fichiers. Le fichier *xmi* du modèle, téléchargeable depuis GenMyModel, et le fichier *json* afin de renseigner le contexte de simulation *i.e* le contenu en langage gaml des fonctions (opérations) de notre modèle UML.
 
-* Beautiful Soup (bs4) et le parser lxml
-* Jinja2
-
-```
-pip install -r requirements.txt
-```
-
-## Modélisation sous GenMyModel
+## Modélisation sous GenMyModel (fichier *xmi*)
 
 Le cas d'utilisation [proies/prédateurs](https://gama-platform.github.io/wiki/PredatorPrey) proposé par la plateforme Gama sera notre projet référent afin de comprendre le fonctionnement et les possibilités offertes par le transformateur.
 
@@ -181,9 +177,22 @@ Le <u>package <b>experiment</b></u> contient un **diagramme de classes** permett
 
 Nous pouvons observer la classe abstraire <i>display</i> permettant d'indiquer un type de retour à l'opération <i>main_display</i>.
 
-### Contenu des opérations à l'aide d'un fichier JSON
+## Définition du contexte de simulation (fichier *json*)
 
-Un fichier <i>.json</i> est nécessaire si l'utilisateur désire renseigner le contenu des opérations de ses classes. Ce fichier doit représenter l'ensemble des classes et leurs opérations. Le fichier pour l'exemple proies/prédateurs est disponible dans le dossier <i>data/gama/</i>. Ce fichier est nécessaire mais si les opérations ne sont pas complétées alors le transformateur fournira uniquement le squelette du code gaml.
+Le fichier <i>json</i> permet à l'utilisateur de renseigner le contenu des opérations issues des classes définies au sein de sa modélisation. Ce fichier doit contenir l'ensemble des classes et leurs opérations. Le dossier <a href="./data/gama/preyPredator.json"><i>data/gama/</i></a> contient le fichier *json* pour l'exemple proies/prédateurs.
+
+La transformation ne peut pas s'affranchir de ce fichier mais le contenu des opérations peut ne pas être renseigné (dans ce cas de figure le transformateur génère uniquement le squelette du code gaml).
+
+## Installation
+
+Le script python transformateur.py nécessite une version supérieure ou égale à la 3.6 ainsi que les dépendances suivantes:
+
+* Beautiful Soup (bs4) et le parser lxml
+* Jinja2
+
+```
+pip install -r requirements.txt
+```
 
 ## Utilisation
 
