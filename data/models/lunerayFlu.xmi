@@ -260,8 +260,7 @@
         <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
           <eAnnotations xmi:id="_WUtbUA-3EDm5vJfjh8eqYg0" source="genmymodel">
             <details xmi:id="_WUtbUA-3EDm5vJfjh8eqYg00" key="uuid" value="_WUtbUA-3EDm5vJfjh8eqYg"/>
-            <details xmi:id="_WUtbUA-3EDm5vJfjh8eqYg01" key="number" value="nb_people"/>
-            <details xmi:id="_WUtbUA-3EDm5vJfjh8eqYg02" key="skills" value="moving"/>
+            <details xmi:id="_WUtbUA-3EDm5vJfjh8eqYg01" key="skills" value="moving"/>
           </eAnnotations>
         </xmi:Extension>
         <ownedAttribute xmi:id="_dvfx4Q-3EDm5vJfjh8eqYg" name="speed" visibility="public">
@@ -362,7 +361,6 @@
         <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
           <eAnnotations xmi:id="_21cioA-3EDm5vJfjh8eqYg0" source="genmymodel">
             <details xmi:id="_21cioA-3EDm5vJfjh8eqYg00" key="uuid" value="_21cioA-3EDm5vJfjh8eqYg"/>
-            <details xmi:id="_21cioA-3EDm5vJfjh8eqYg01" key="from" value="roads_shapefile"/>
           </eAnnotations>
         </xmi:Extension>
         <ownedOperation xmi:id="_4vZt4Q-3EDm5vJfjh8eqYg" name="geom" class="_21cioA-3EDm5vJfjh8eqYg">
@@ -384,7 +382,6 @@
         <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
           <eAnnotations xmi:id="_7rXvwA-3EDm5vJfjh8eqYg0" source="genmymodel">
             <details xmi:id="_7rXvwA-3EDm5vJfjh8eqYg00" key="uuid" value="_7rXvwA-3EDm5vJfjh8eqYg"/>
-            <details xmi:id="_7rXvwA-3EDm5vJfjh8eqYg01" key="from" value="buildings_shapefile"/>
           </eAnnotations>
         </xmi:Extension>
         <ownedOperation xmi:id="_85UwoA-3EDm5vJfjh8eqYg" name="geom" class="_7rXvwA-3EDm5vJfjh8eqYg">
@@ -593,6 +590,7 @@
         <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
           <eAnnotations xmi:id="_R96IQQ-5EDm5vJfjh8eqYg0" source="genmymodel">
             <details xmi:id="_R96IQQ-5EDm5vJfjh8eqYg00" key="uuid" value="_R96IQQ-5EDm5vJfjh8eqYg"/>
+            <details xmi:id="_R96IQQ-5EDm5vJfjh8eqYg01" key="from" value="roads_shapefile"/>
           </eAnnotations>
         </xmi:Extension>
       </packagedElement>
@@ -600,6 +598,8 @@
         <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
           <eAnnotations xmi:id="_EPtdcA-6EDm5vJfjh8eqYg0" source="genmymodel">
             <details xmi:id="_EPtdcA-6EDm5vJfjh8eqYg00" key="uuid" value="_EPtdcA-6EDm5vJfjh8eqYg"/>
+            <details xmi:id="_EPtdcA-6EDm5vJfjh8eqYg01" key="from" value="buildings_shapefile"/>
+            <details xmi:id="_EPtdcA-6EDm5vJfjh8eqYg02" key="priority" value="2"/>
           </eAnnotations>
         </xmi:Extension>
       </packagedElement>
@@ -607,6 +607,8 @@
         <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
           <eAnnotations xmi:id="_I7M8MA-6EDm5vJfjh8eqYg0" source="genmymodel">
             <details xmi:id="_I7M8MA-6EDm5vJfjh8eqYg00" key="uuid" value="_I7M8MA-6EDm5vJfjh8eqYg"/>
+            <details xmi:id="_I7M8MA-6EDm5vJfjh8eqYg01" key="number" value="nb_people"/>
+            <details xmi:id="_I7M8MA-6EDm5vJfjh8eqYg02" key="priority" value="1"/>
           </eAnnotations>
         </xmi:Extension>
       </packagedElement>

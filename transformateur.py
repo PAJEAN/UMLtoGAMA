@@ -186,7 +186,7 @@ def instanciation(root, uml_classes):
                 instance.name = uml_class.name
                 instance.properties = extractProperties(instance_tag)
                 slot_tags = extractTags(instance_tag, 'slot')
-                instance.getHeading(uml_class.properties) # Get static attributes (some protected words are used like "number", "from" and "returns").
+                instance.getHeading()
                 for slot_tag in slot_tags:
                     value_tag = extractTag(slot_tag, 'value')
                     if value_tag:
@@ -207,7 +207,7 @@ def instanciation(root, uml_classes):
     return instances
 
 # Get global block.
-def getGlobal(root):
+def getGlobal(root, uml_classes):
     uml_global = buildClassDiagram(root, 'global')
     if len(uml_global) == 1:
         uml_global = GamlGlobal(uml_global[0].attributes, uml_global[0].operations)
@@ -325,6 +325,7 @@ class UmlClass:
         'Integer'       : 'int'
     }
     object_type = 'object_type'
+    protected_facets = ['object_type', 'skills'] # Theses properties are specific during the getHeading() function.
 
     def __init__(self, root):
         self.class_id = getAttributeValue(root, 'xmi:id')
@@ -338,18 +339,13 @@ class UmlClass:
         self.heading = None
 
     def getHeading(self):
-        if 'width' in self.properties and 'height' in self.properties and 'neighbors' in self.properties: # Grid.
-            if self.properties['width'] and self.properties['height'] and self.properties['neighbors']:
-                self.heading = 'width: %s height: %s neighbors: %s' % (self.properties['width'], self.properties['height'], self.properties['neighbors'])
-            else:
-                raiseException('err6', self.name)
+        self.properties.pop('uuid', None) # Clear uuid property.
+        headings = ['%s: %s' % (property, self.properties[property]) for property in self.properties if not property in UmlClass.protected_facets]
         if len(self.controllers) > 0:
-            self.heading = 'control: fsm' if self.heading is None else f'{self.heading} control: fsm'
+            headings.append('control: fsm')
         if 'skills' in self.properties:
-            if self.heading is None:
-                self.heading = 'skills: [%s]' % self.properties['skills']
-            else:
-                self.heading += ' skills: [%s]' % self.properties['skills']
+            headings.append('skills: [%s]' % self.properties['skills'])
+        self.heading = ' '.join(headings)
 
     def getType(self):
         if UmlClass.object_type in self.properties:
@@ -488,6 +484,7 @@ global {
 
 class GamlInstance:
     package_name = 'instanciation'
+    protected_facets = ['priority'] # Theses properties are specific during the getHeading() function.
 
     def __init__(self):
         self.name = None
@@ -495,14 +492,9 @@ class GamlInstance:
         self.properties = None
         self.heading = None
     
-    def getHeading(self, class_properties):
-        headings = []
-        if 'number' in class_properties:
-            headings.append('number: %s' % class_properties['number'])
-        if 'from' in class_properties:
-            headings.append('from: %s' % class_properties['from'])
-        if 'returns' in class_properties:
-            headings.append('returns: %s' % class_properties['returns'])
+    def getHeading(self):
+        self.properties.pop('uuid', None) # Clear uuid property.
+        headings = ['%s: %s' % (property, self.properties[property]) for property in self.properties if not property in GamlInstance.protected_facets]
         self.heading = ' '.join(headings)
 
     def translateToGaml(self):
@@ -592,7 +584,7 @@ if __name__== "__main__":
 
     # Meta model package.
     uml_classes = buildClassDiagram(xml_tree, 'meta_model')
-    uml_global = getGlobal(xml_tree)
+    uml_global = getGlobal(xml_tree, uml_classes)
     uml_experiment = getExperiment(xml_tree)
 
     with codecs.open(output_file_path, 'w', encoding='utf-8') as fout:

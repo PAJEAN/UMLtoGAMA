@@ -55,6 +55,12 @@ Décrivons les différentes sections:
 * <b>déclaration des <i>species</i></b>: cette partie décrit les caractéristiques de nos agents (variables, fonctions, etc.).
 * <b>experiment</b>: ce bloc permet d'instancier une nouvelle expérience au sein de Gama.
 
+A noter que le langage gaml inclut, au travers des <i><b>facets</b></i>, la possibilité de paramétrer la déclaration d'une variable, d'une fonction ou bien d'une <i>species</i>. Dans l'exemple ci-dessous <i>number</i> est une <i>facet</i> de la fonction <i>create</i>.
+
+```
+create prey number: nb_preys_init ;
+```
+
 ### Création d'un diagramme de classes sous GenMyModel
 
 Maintenant que nous avons pris connaissance de ces différentes parties, transcrivons les au sein de la plateforme GenMyModel. Créer un <b>nouveau diagramme de classes</b> et créer 4 packages avec les noms suivants:
@@ -93,14 +99,23 @@ Le <u>package <b>instanciation</b></u> contient un diagramme d'objets dans leque
     <p><i>Instanciation de deux agents, un prey et un predator. Les attributs de ces agents sont instanciés avec des variables globales (ou des valeurs brutes comme #blue).</i></p>
 </div>
 
-Dans cet exemple, nous instancions seulement deux agents. Dans le package <i>meta_model</i>, nous allons voir comment exploiter la facet <i>number:</i> de la fonction <i>create</i> utilisée au sein de la fonction <i>init</i> dans le bloc <i>global</i>.
+Dans cet exemple, nous instancions seulement deux agents.
 
-Si l'ordre d'instanciation des agents est important, vous pouvez ajouter une <i>Custom Properties</i> aux instances dont la clé est <i>priority</i> et la valeur l'ordre de priorité.
+Pour ajouter des <i>facets</i> à la fonction <i>create</i>, il est possible d'ajouter des <i>Custom Properties</i> à l'objet.
+
+<div style="width: 100%; text-align:center">
+    <img src="images/instanciation_properties.png" alt="drawing" width="300"/>
+    <p><i>Cette Custom Properties permet de générer le code suivant: create people number: nb_people {...}.</i></p>
+</div>
+
+Si l'<b>ordre d'instanciation</b> des agents est important, vous pouvez ajouter une <i>Custom Properties</i> aux différentes instances avec la clé <b><i>priority</i></b> et la valeur associée à l'ordre de priorité (1,2,3, etc.).
 
 <div style="width: 100%; text-align:center">
     <img src="images/instance_priority.png" alt="drawing" width="300"/>
     <p><i>Définition de l'ordre de priorité d'initialisation des agents.</i></p>
 </div>
+
+<i>NB</i>: Cette <i>Custom Properties</i> est réservée, elle n'apparaît pas en tant que <i>facet</i> dans le code gaml.
 
 Le <u>package <b>meta_model</b></u> contient un diagramme de classes permettant de représenter toutes nos <i>species</i> et leurs comportements.
 
@@ -113,27 +128,25 @@ Détaillons les spécificités de ce diagramme.
 * Les <b>classes abstraites</b> <i>rgb</i> et <i>aspect</i>. Ces classes sont ignorées par le transformateur. Elles permettent notamment d'utiliser certains types natifs à Gama au sein de la modélisation. Par exemple, le type <i>rgb</i> permet de déclarer une couleur et <i>aspect</i> indique le type de retour de la fonction <i>base()</i> de <i>generic_species</i>. Une même classe abstraite peut être créée dans plusieurs packages (e.g. la classe <i>rgb</i> dans <i>global</i> et <i>metal_model</i> pour déclarer une couleur).
 * La relation d'héritage (<i>species prey parent: generic_species {}</i>) est symbolisé par un lien d'héritage entre la classe mère et la classe fille.
 * Les opérations. Une opération sans type de retour sera considérée comme une <i>action</i> au sein de Gama. Si l'utilisateur veut indiquer une <i>reflex</i> alors il doit déclarer une classe abstraite <i>reflex</i> et l'indiquer en type de retour.
-* Les <i><b>facets</b></i>. Les <i>facets</i> au sein de Gama se présentent de la façon suivante:
-```
-grid vegetation_cell width: 50 height: 50 neighbors: 4 {}
-```
-Elles prennent la forme de mot-clé permettant de paramétrer la déclaration d'une variable, d'une fonction ou bien d'une <i>species</i>. Pour renseigner une <i>facet</i> lors de la simulation, il faut se rendre dans la section Propriété.
+* A l'instar du package *instanciation*, pour inclure une <i>facet</i> lors de la création de la *species*, il faut se rendre dans la section Propriété et ajouter des *Custom Properties*.
+
+Pour modifier le mot-clé *species*, vous pouvez utiliser la *Custom Properties* <b>object_type</b>. L'exemple ci-dessous permet de déclarer une grille.
 
 <div style="width: 100%; text-align:center">
     <img src="images/property_section_facets.png" alt="drawing" width="300"/>
     <p><i>Déclaration des facets pour la classe vegetation_cell.</i></p>
 </div>
 
-* Les facets réservées. Certains mots-clés sont réservés lors de la déclaration d'une <i>facet</i>. Nous avons le mot-clé <b>object_type</b>, pour une classe, permettant de préciser un nom différent à la place de <i>species</i>, <b>number</b>, pour une classe, permettant d'indiquer une nombre d'agents à créer lors de l'instanciation, <b>returns</b>, pour une classe, que l'on peut retrouver lors de l'initialisation et <b>skills</b>, pour une classe, qui indique les comportements disponibles de nos agents.
-* Les comportements. Au sein du diagramme de classes du package <i>meta_model</i>, nous y retrouvons un package nommé <i>generic_species_behavior</i> (ce dernier doit avoir la <i>Custom Properties: behavior</i> sans valeur spécifique). Ce package contient un diagramme d'état permettant d'exploiter la <i>facet control: fsm</i> au sein d'une <i>species</i> afin d'y inclure un comportement dépendant d'un diagramme d'état. Une dépendance permet d'indiquer la classe qui bénéficie de ce comportement (une seule connexion possible).
+<i>NB</i>: Cette <i>Custom Properties</i> est réservée, elle n'apparaît pas en tant que <i>facet</i> dans le code gaml.
+
+* Les comportements. Au sein du diagramme de classes du package <i>meta_model</i>, nous y retrouvons un package nommé <i>generic_species_behavior</i> (ce dernier doit avoir la <i>Custom Properties: behavior</i> sans valeur spécifique). Ce package contient un diagramme d'état permettant d'inclure un comportement à une *species* sous la forme d'un diagramme d'état. Un lien de dépendance permet d'indiquer la classe qui bénéficie de ce comportement (une seule connexion possible). Lorsqu'une dépendance est réalisée la *species* inclut automatiquement la *facet* *control: fsm*.
 
 <div style="width: 100%; text-align:center">
     <img src="images/state_diagram.png" alt="drawing" width="600"/>
     <p><i>Déclaration des facets pour la classe vegetation_cell.</i></p>
 </div>
 
-Au sein de ce diagramme nous retrouvons un état initial, un état final, et l'état <i>Reproduce</i> ainsi que les différentes transitions (et leur valeur) entre ces états. Le diagramme
-doit contenir un <i>EntryPoint</i> et un <i>FinalPoint</i> afin d'indiquer aux transformateur l'état initial et final du FSM. Ce diagramme est transformé de la manière suivante:
+Au sein de ce diagramme nous retrouvons un état initial, un état final et l'état <i>Reproduce</i> ainsi que les différentes transitions (et leur valeur) entre ces états. Le diagramme doit contenir un <i>EntryPoint</i> et un <i>FinalPoint</i> afin d'indiquer aux transformateur l'état initial et final du FSM. Ce diagramme est transformé de la manière suivante:
 
 ```
 state EntryPoint initial: true {
