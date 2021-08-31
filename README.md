@@ -209,14 +209,6 @@ pip install -r requirements.txt
 
 ## Utilisation
 
-L'option <i>-f</i> permet d'indiquer le nom du fichier json (au sein du répertoire <i>data/gama/</i>) et du fichier <i>xmi</i> (au sein du répertoire <i>data/models/</i>). Le nom doit être le même.
-
-```
-python transformateur.py -f preyPredator
-```
-
-Le code généré est déposé au sein du répertoire <i>outputs/</i>.
-
 Pour générer la structure du fichier *json* à partir du fichier *xmi*, utilisez la commande suivante:
 
 ```
@@ -224,3 +216,11 @@ python transformateur.py -j preyPredator
 ```
 
 où *preyPredator* est le nom du fichier *xmi* au sein du répertoire */data/models/*. Le fichier ainsi généré est déposé dans le dossier */data/gama/*. Pensez à sauvegarder le fichier actuel si vous voulez conserver une trace de *preyPredator.json*.
+
+L'option <i>-f</i> suivie d'un nom de fichier (<i>json</i> au sein du répertoire <i>data/gama/</i> et <i>xmi</i> au sein du répertoire <i>data/models/</i>) permet de générer le code gaml.
+
+```
+python transformateur.py -f preyPredator
+```
+
+Le code généré est déposé au sein du répertoire <i>outputs/</i>.

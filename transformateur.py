@@ -436,8 +436,7 @@ class UmlOperation:
         self.heading = None
     
     def getHeading(self):
-        if 'when' in self.properties:
-            self.heading = 'when: %s' % self.properties['when']
+        self.heading = ' '.join(['%s: %s' % (key, self.properties[key]) for key in self.properties if key != 'uuid'])
 
     def getParameters(self, parameters):
         if len(parameters) > 0:
