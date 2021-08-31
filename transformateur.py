@@ -362,8 +362,7 @@ class UmlClass:
         self.heading = None
 
     def getHeading(self):
-        self.properties.pop('uuid', None) # Clear uuid property.
-        headings = ['%s: %s' % (property, self.properties[property]) for property in self.properties if not property in UmlClass.protected_facets]
+        headings = ['%s: %s' % (property, self.properties[property]) for property in self.properties if not property in UmlClass.protected_facets and property != 'uuid']
         if len(self.controllers) > 0:
             headings.append('control: fsm')
         if 'skills' in self.properties:
@@ -517,9 +516,7 @@ class GamlInstance:
         self.heading = None
     
     def getHeading(self):
-        self.properties.pop('uuid', None) # Clear uuid property.
-        headings = ['%s: %s' % (property, self.properties[property]) for property in self.properties if not property in GamlInstance.protected_facets]
-        self.heading = ' '.join(headings)
+        self.heading = ' '.join(['%s: %s' % (property, self.properties[property]) for property in self.properties if not property in GamlInstance.protected_facets and property != 'uuid'])
 
     def translateToGaml(self):
         template = Template('''

@@ -88,6 +88,19 @@ Dans cet exemple, la classe contient l'ensemble des variables globales et leurs 
 
 Cette section permet également de préciser le type et la cardinalité des variables. Si la variable est un tableau d'entiers (<i>list&lt;int></i>) alors <i>Lower Multiplicity</i> est égal à 0 et <i>Upper Multiplicity</i> à <b>*</b>. Le transformateur tient compte des 4 types primitifs suivants: *String*, *Real*, *Boolean* et *Integer*.
 
+Il est possible d'ajouter des <i>facets</i> aux attributs en ajoutant des <i>Custom Properties</i>.
+
+<div align="center">
+    <img src="images/attribute_facets.png" alt="drawing" width="350"/>
+    <p><i>Ajout de la facet update à un attribut.</i></p>
+</div>
+
+La figure ci-dessous permet d'obtenir l'attribut suivant (exemple tiré de l'exemple *lunerayFlu*):
+
+```
+float infected_rate update: nb_people_infected/nb_people;
+```
+
 Le <u>package <b>instanciation</b></u> contient un **diagramme d'objets** dans lequel nous déclarons et instancions nos agents. L'exemple ci-dessous permet d'instancier un agent *prey* et un agent *predator*.
 
 <div align="center">
@@ -210,4 +223,4 @@ Pour générer la structure du fichier *json* à partir du fichier *xmi*, utilis
 python transformateur.py -j preyPredator
 ```
 
-où *preyPredator* est le nom du fichier *xmi* au sein du répertoire */data/models/*. Le fichier ainsi généré est déposé dans le dossier */data/gama/*.
+où *preyPredator* est le nom du fichier *xmi* au sein du répertoire */data/models/*. Le fichier ainsi généré est déposé dans le dossier */data/gama/*. Pensez à sauvegarder le fichier actuel si vous voulez conserver une trace de *preyPredator.json*.
